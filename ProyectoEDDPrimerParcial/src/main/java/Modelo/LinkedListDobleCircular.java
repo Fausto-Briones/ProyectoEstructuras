@@ -4,6 +4,8 @@
  */
 package Modelo;
 
+import javafx.scene.image.Image;
+
 /**
  *
  * @author CltControl
@@ -165,5 +167,32 @@ public class LinkedListDobleCircular<E> {
             }
         }
         return retorno;
+    }
+    
+    public E getAnterior(Image j){
+        Node<E> tmp = first;
+        for(int i=0;i<this.size();i++){
+            if(tmp.contenido.equals(j)){
+                return tmp.anterior.contenido;
+            }
+            tmp=tmp.siguiente;
+        }    //notar que si el elemento no se encuentra el for no se rompe asi que hay que implementar iterable
+        return null;
+        
+    }
+    
+    public E getSiguiente(Image j){
+        Node<E> tmp = first;
+        for(int i=0;i<this.size();i++){
+            if(tmp.contenido.equals(j)){
+                return tmp.siguiente.contenido;
+                
+            }
+            tmp=tmp.siguiente;
+            //notar que si el elemento no se encuentra el for no se rompe asi que hay que implementar iterable
+            
+        }
+        return null;
+        
     }
 }

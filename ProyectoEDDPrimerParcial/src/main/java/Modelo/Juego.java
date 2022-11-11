@@ -100,4 +100,20 @@ public class Juego {
         return result;
     }
     
+    @Override
+    public boolean equals(Object o){
+        if (o == null) {
+            return false;
+        }
+
+        if (o.getClass() != this.getClass()) {
+            return false;
+        }
+        Juego j = (Juego)o;
+        if ((this.titulo == null) ? (j.titulo != null) : !this.titulo.equals(j.titulo)) {
+            return false;
+        }
+        return true;
+    }
+    
 }
