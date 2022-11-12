@@ -24,8 +24,10 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("VistaPrincipal"), 1280, 720);
+        scene = new Scene(loadFXML("VistaPrincipal"), 1335, 720);
         stage.setScene(scene);
+        stage.setResizable(false);
+        stage.setTitle("Game Store");
         stage.show();
     }
 

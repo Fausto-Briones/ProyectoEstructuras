@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.SnapshotParameters;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -24,8 +25,11 @@ import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  * FXML Controller class
@@ -54,6 +58,8 @@ public class VistaPrincipalController implements Initializable {
     
     @FXML
     private ScrollPane cataPane;
+    @FXML
+    private FlowPane flowpane;
     
     Image img_juego_actual;
     /**
@@ -133,31 +139,40 @@ public class VistaPrincipalController implements Initializable {
     }
     
     private void llenarCatalogo(){
-        FlowPane flowPane=new FlowPane();
-        flowPane.setOrientation(Orientation.VERTICAL);
-        flowPane.setAlignment(Pos.CENTER);
-        flowPane.setPrefSize(914, 194);
-        flowPane.setHgap(30);
-        flowPane.setPadding(new Insets(20,20,20,20));
+//        flowPane.setPadding(new Insets(20,20,20,20));
         for(int i=0;i<juegos.size();i++){
             Juego actual=juegos.get(i);
             VBox vbJuego=new VBox();
             ImageView imgvJuego=new ImageView();
             imgvJuego.setImage(App.getImage("Images/"+actual.getTitulo()+".jpg"));
-            imgvJuego.setFitHeight(200);
+            imgvJuego.setFitHeight(300);
             imgvJuego.setPreserveRatio(true);
+            Rectangle clip=new Rectangle(225,300);
+            clip.setArcWidth(30);
+            clip.setArcHeight(30);
+            imgvJuego.setClip(clip);
+            SnapshotParameters parameters=new SnapshotParameters();
+            parameters.setFill(Color.TRANSPARENT);
+            WritableImage image=imgvJuego.snapshot(parameters,null);
+            imgvJuego.setClip(null);
+            imgvJuego.setImage(image);
+            
             imgvJuego.setOnMouseClicked(e->{
                 abrirVentanaJuego(actual);
             });
             vbJuego.getChildren().add(imgvJuego);
-            vbJuego.getChildren().add(new Label(juegos.get(i).getTitulo()));
-            vbJuego.getChildren().add(new Label(juegos.get(i).getPrecio()));
+            Label titulo=new Label(juegos.get(i).getTitulo());
+//            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            vbJuego.getChildren().add(titulo);
+            Label precio=new Label(juegos.get(i).getPrecio());
+//            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
-            flowPane.getChildren().add(vbJuego);
+            flowpane.getChildren().add(vbJuego);
         }
-        cataPane.setContent(flowPane);  
     }
     public void abrirVentanaJuego(Juego j){
         //Escribir código necesario para abrir la ventana del Juego
+        
     }
 }
