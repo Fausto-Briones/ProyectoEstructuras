@@ -14,13 +14,18 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
+import javafx.geometry.Orientation;
+import javafx.geometry.Pos;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.FlowPane;
 
 /**
  * FXML Controller class
@@ -47,6 +52,9 @@ public class VistaPrincipalController implements Initializable {
     
     private TextField barra_busqueda;
     
+    @FXML
+    private ScrollPane cataPane;
+    
     Image img_juego_actual;
     /**
      * Initializes the controller class.
@@ -54,6 +62,7 @@ public class VistaPrincipalController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
        cleanList();
+       llenarCatalogo();
        img_juego_actual = imgsDestacados.get(0);
        imgvDestacado.setImage(img_juego_actual);
        barra_busqueda = new TextField();
@@ -123,4 +132,32 @@ public class VistaPrincipalController implements Initializable {
         }
     }
     
+    private void llenarCatalogo(){
+        FlowPane flowPane=new FlowPane();
+        flowPane.setOrientation(Orientation.VERTICAL);
+        flowPane.setAlignment(Pos.CENTER);
+        flowPane.setPrefSize(914, 194);
+        flowPane.setHgap(30);
+        flowPane.setPadding(new Insets(20,20,20,20));
+        for(int i=0;i<juegos.size();i++){
+            Juego actual=juegos.get(i);
+            VBox vbJuego=new VBox();
+            ImageView imgvJuego=new ImageView();
+            imgvJuego.setImage(App.getImage("Images/"+actual.getTitulo()+".jpg"));
+            imgvJuego.setFitHeight(200);
+            imgvJuego.setPreserveRatio(true);
+            imgvJuego.setOnMouseClicked(e->{
+                abrirVentanaJuego(actual);
+            });
+            vbJuego.getChildren().add(imgvJuego);
+            vbJuego.getChildren().add(new Label(juegos.get(i).getTitulo()));
+            vbJuego.getChildren().add(new Label(juegos.get(i).getPrecio()));
+            vbJuego.setSpacing(5);
+            flowPane.getChildren().add(vbJuego);
+        }
+        cataPane.setContent(flowPane);  
+    }
+    public void abrirVentanaJuego(Juego j){
+        //Escribir código necesario para abrir la ventana del Juego
+    }
 }
