@@ -71,6 +71,7 @@ public class VistaPrincipalController implements Initializable {
        llenarCatalogo();
        img_juego_actual = imgsDestacados.get(0);
        imgvDestacado.setImage(img_juego_actual);
+       imgvDestacado.setPreserveRatio(true);
        barra_busqueda = new TextField();
        HBox.setMargin(barra_busqueda,new Insets(20,20,20,20));
        barra_busqueda.setPromptText("Buscar en la tienda");
@@ -169,10 +170,26 @@ public class VistaPrincipalController implements Initializable {
             vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
             flowpane.getChildren().add(vbJuego);
+            
+            imgvJuego.setOnMouseEntered(e->{
+                imgvJuego.setFitWidth(230);
+                imgvJuego.setFitHeight(305);
+            });
+            
+            imgvJuego.setOnMouseExited(e->{
+                imgvJuego.setFitWidth(225);
+                imgvJuego.setFitHeight(300);
+                
+            });
         }
     }
     public void abrirVentanaJuego(Juego j){
         //Escribir código necesario para abrir la ventana del Juego
+        
+    }
+    
+    
+    public void animation(){
         
     }
 }
