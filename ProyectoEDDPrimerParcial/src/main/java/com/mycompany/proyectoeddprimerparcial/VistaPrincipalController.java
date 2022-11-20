@@ -16,6 +16,7 @@ import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -60,6 +61,21 @@ public class VistaPrincipalController implements Initializable {
     private ScrollPane cataPane;
     @FXML
     private FlowPane flowpane;
+    @FXML
+    private Label lblDestacados;
+    @FXML
+    private Label lblDisfruta;
+    @FXML
+    private Label lblCatalogo;
+    @FXML
+    private VBox vbPrincipal;
+    @FXML
+    private VBox vbCarrusel;
+    @FXML
+    private HBox hbCatalogo;
+    @FXML
+    private Button btnModoOscuro;
+    private boolean isModoOscuroOn;
     
     Image img_juego_actual;
     /**
@@ -67,6 +83,10 @@ public class VistaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+       isModoOscuroOn=true;
+       btnModoOscuro.setOnAction(e->{
+           cambiarModo();
+       });
        cleanList();
        llenarCatalogo();
        img_juego_actual = imgsDestacados.get(0);
@@ -74,6 +94,7 @@ public class VistaPrincipalController implements Initializable {
        imgvDestacado.setPreserveRatio(true);
        barra_busqueda = new TextField();
        HBox.setMargin(barra_busqueda,new Insets(20,20,20,20));
+       HBox.setMargin(btnModoOscuro,new Insets(20,20,20,20));
        barra_busqueda.setPromptText("Buscar en la tienda");
        barra_busqueda.setPrefWidth(200);
        barra_busqueda.setFocusTraversable(false);
@@ -164,9 +185,11 @@ public class VistaPrincipalController implements Initializable {
             vbJuego.getChildren().add(imgvJuego);
             Label titulo=new Label(juegos.get(i).getTitulo());
 //            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            titulo.setTextFill(Color.WHITE);
             vbJuego.getChildren().add(titulo);
             Label precio=new Label(juegos.get(i).getPrecio());
 //            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            precio.setTextFill(Color.WHITE);
             vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
             flowpane.getChildren().add(vbJuego);
@@ -191,5 +214,33 @@ public class VistaPrincipalController implements Initializable {
     
     public void animation(){
         
+    }
+    public void cambiarModo(){
+        if(isModoOscuroOn){
+            isModoOscuroOn=false;
+            cambiarContraste("black","white");
+        }else{
+            isModoOscuroOn=true;
+            cambiarContraste("white"," #121212");
+        }
+    }
+    public void cambiarContraste(String colorTextos,String colorFondos){
+        lblDestacados.setTextFill(Color.web(colorTextos));
+        lblDisfruta.setTextFill(Color.web(colorTextos));
+        lblCatalogo.setTextFill(Color.web(colorTextos));
+        for(Node nodo:flowpane.getChildren()){
+            VBox vbox= (VBox)nodo;
+            Label titulo=(Label)vbox.getChildren().get(1);
+            titulo.setTextFill(Color.web(colorTextos));
+            Label precio=(Label)vbox.getChildren().get(2);
+            precio.setTextFill(Color.web(colorTextos));
+        }
+        vbPrincipal.setStyle("-fx-background-color:"+colorFondos);
+        cabecera.setStyle("-fx-background-color:"+colorFondos);
+        barraBusqueda.setStyle("-fx-background-color:"+colorFondos);
+        carrusel.setStyle("-fx-background-color:"+colorFondos);
+        vbCarrusel.setStyle("-fx-background-color:"+colorFondos);
+        hbCatalogo.setStyle("-fx-background-color:"+colorFondos);
+        flowpane.setStyle("-fx-background-color:"+colorFondos);
     }
 }
