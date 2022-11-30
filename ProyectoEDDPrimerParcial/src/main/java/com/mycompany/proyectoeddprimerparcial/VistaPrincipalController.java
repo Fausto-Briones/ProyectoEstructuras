@@ -28,6 +28,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -38,7 +39,7 @@ import javafx.scene.shape.Rectangle;
  * @author USUARIO
  */
 public class VistaPrincipalController implements Initializable {
-    private TDAArraylist<Juego> juegos=App.cargarJuegos();
+    private LinkedListDobleCircular<Juego> juegos=App.cargarJuegos();
     private LinkedListDobleCircular<Image> imgsDestacados=cargarDestacados();
     @FXML
     private VBox root;
@@ -100,6 +101,7 @@ public class VistaPrincipalController implements Initializable {
        barra_busqueda.setFocusTraversable(false);
        barraBusqueda.getChildren().add(barra_busqueda);
        iniciarCarrusel();
+       reiniciarCatalogo();
        
     }
     
@@ -212,8 +214,19 @@ public class VistaPrincipalController implements Initializable {
     }
     
     
-    public void animation(){
-        
+    public void buscador(){
+        String busqueda = barra_busqueda.getText();
+        for(int i = 0; i<juegos.size();i++){
+            if(juegos.get(i).getTitulo()==busqueda){
+                //abrir ventana del juego correspondiente
+            }
+        }
+    }
+
+    private void reiniciarCatalogo(){
+       cataPane.setOnScrollFinished((ScrollEvent e) -> {
+           llenarCatalogo();
+       });
     }
     public void cambiarModo(){
         if(isModoOscuroOn){
@@ -244,3 +257,6 @@ public class VistaPrincipalController implements Initializable {
         flowpane.setStyle("-fx-background-color:"+colorFondos);
     }
 }
+
+    
+//Dar funcionalidad a la barra de busqueda

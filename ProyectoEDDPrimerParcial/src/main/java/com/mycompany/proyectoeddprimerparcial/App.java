@@ -11,7 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-
+import Modelo.LinkedListDobleCircular;
 import java.io.IOException;
 import javafx.scene.image.Image;
 
@@ -24,7 +24,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("VistaPrincipal"), 1335, 720);
+        scene = new Scene(loadFXML("VentanaPrincipalDemo"), 1280, 720);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Game Store");
@@ -70,13 +70,13 @@ public class App extends Application {
         }
         return retorno;
     }
-    public static TDAArraylist<Juego> cargarJuegos(){
-        TDAArraylist<Juego> juegos=new TDAArraylist<>();
+    public static LinkedListDobleCircular<Juego> cargarJuegos(){
+        LinkedListDobleCircular<Juego> juegos=new LinkedListDobleCircular<>();
         TDAArraylist<String[]> datos=cargarDatos("Files/games.csv");
         for(int i=0;i<datos.size();i++){
             String[] arr=datos.get(i);
             Juego juego=new Juego(arr[0],arr[1],arr[2],arr[3],arr[4],arr[5],arr[6]);
-            juegos.add(juego);
+            juegos.addLast(juego);
         }
         return juegos;
     }

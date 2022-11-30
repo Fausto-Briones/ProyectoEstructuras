@@ -169,7 +169,7 @@ public class LinkedListDobleCircular<E> {
         return retorno;
     }
     
-    public E getAnterior(Image j){
+    public E getAnterior(E j){
         Node<E> tmp = first;
         for(int i=0;i<this.size();i++){
             if(tmp.contenido.equals(j)){
@@ -181,7 +181,7 @@ public class LinkedListDobleCircular<E> {
         
     }
     
-    public E getSiguiente(Image j){
+    public E getSiguiente(E j){
         Node<E> tmp = first;
         for(int i=0;i<this.size();i++){
             if(tmp.contenido.equals(j)){
@@ -193,6 +193,6 @@ public class LinkedListDobleCircular<E> {
             
         }
         return null;
-        
     }
+    
 }
