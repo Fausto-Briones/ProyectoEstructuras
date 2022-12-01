@@ -150,9 +150,9 @@ public class VentanaDetalleController implements Initializable{
     @FXML
     HBox hboxRadios;
     
-    public static String modo="black";
-    public static String modocontrario="white";
-    public static Juego selected=new Juego("1","God of war","sfadfae","fdfdsfs","dfsdfsd","2020","59.99");
+    public static String modo;
+    public static String modocontrario;
+    public static Juego selected;
     //public String modo="white";
     public static Usuario usr;
     
