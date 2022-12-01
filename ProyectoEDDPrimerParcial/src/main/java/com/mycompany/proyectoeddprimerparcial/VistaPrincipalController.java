@@ -143,11 +143,26 @@ public class VistaPrincipalController implements Initializable {
     }
     
     //setOnMouseClicked para haciendo click en la img, acceder a la vista de Axcel.
+    //CAMBIADO POR AXCEL
     public void abrirDestacado(){
         imgvDestacado.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event){
-                //setear la scene con la del juego
+                if(isModoOscuroOn){
+                    VentanaDetalleController.modo="black";
+                    VentanaDetalleController.modocontrario="white";
+                }else{
+                    VentanaDetalleController.modo="white";
+                    VentanaDetalleController.modocontrario="black";
+                }
+                VentanaDetalleController.usr=App.usr;
+                VentanaDetalleController.selected=j;
+                FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
+                Parent root1 = fxmloader.load();
+                Stage s=(Stage)root.getScene().getWindow();
+                Scene scene=new Scene(root1,1280,720);
+                s.setScene(scene);
+                s.show();
             }
         
         });
@@ -208,8 +223,24 @@ public class VistaPrincipalController implements Initializable {
             });
         }
     }
+    
+    //CAMBIADO POR AXCEL
     public void abrirVentanaJuego(Juego j){
-        //Escribir código necesario para abrir la ventana del Juego
+        if(isModoOscuroOn){
+        VentanaDetalleController.modo="black";
+        VentanaDetalleController.modocontrario="white";
+        }else{
+        VentanaDetalleController.modo="white";
+        VentanaDetalleController.modocontrario="black";
+        }
+        VentanaDetalleController.usr=App.usr;
+        VentanaDetalleController.selected=j;
+        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
+        Parent root1 = fxmloader.load();
+        Stage s=(Stage)root.getScene().getWindow();
+        Scene scene=new Scene(root1,1280,720);
+        s.setScene(scene);
+        s.show();
         
     }
     
