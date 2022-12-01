@@ -2,7 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ProyectoEDD;
+package Modelo;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class Usuario implements Serializable{
     private String id;
     private String contrasenia;
-    private TDAArraylist<Juego>wishlist=new TDAArraylist<Juego>();
+    private LDEC<Juego>wishlist=new LDEC<>();
     
     public Usuario(String id,String contrasenia){
     this.id=id;

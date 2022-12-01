@@ -5,18 +5,23 @@
 package com.mycompany.proyectoeddprimerparcial;
 
 import Modelo.Juego;
+import Modelo.LDEC;
 import Modelo.LinkedListDobleCircular;
 import Modelo.TDAArraylist;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -32,6 +37,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 /**
  * FXML Controller class
@@ -84,24 +90,24 @@ public class VistaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-       isModoOscuroOn=true;
-       btnModoOscuro.setOnAction(e->{
-           cambiarModo();
-       });
-       cleanList();
-       llenarCatalogo();
-       img_juego_actual = imgsDestacados.get(0);
-       imgvDestacado.setImage(img_juego_actual);
-       imgvDestacado.setPreserveRatio(true);
-       barra_busqueda = new TextField();
-       HBox.setMargin(barra_busqueda,new Insets(20,20,20,20));
-       HBox.setMargin(btnModoOscuro,new Insets(20,20,20,20));
-       barra_busqueda.setPromptText("Buscar en la tienda");
-       barra_busqueda.setPrefWidth(200);
-       barra_busqueda.setFocusTraversable(false);
-       barraBusqueda.getChildren().add(barra_busqueda);
-       iniciarCarrusel();
-       reiniciarCatalogo();
+//       isModoOscuroOn=true;
+//       btnModoOscuro.setOnAction(e->{
+//           cambiarModo();
+//       });
+//       cleanList();
+//       //llenarCatalogo();
+//       img_juego_actual = imgsDestacados.get(0);
+//       imgvDestacado.setImage(img_juego_actual);
+//       imgvDestacado.setPreserveRatio(true);
+//       barra_busqueda = new TextField();
+////       HBox.setMargin(barra_busqueda,new Insets(20,20,20,20));
+////       HBox.setMargin(btnModoOscuro,new Insets(20,20,20,20));
+//       barra_busqueda.setPromptText("Buscar en la tienda");
+//       barra_busqueda.setPrefWidth(200);
+//       barra_busqueda.setFocusTraversable(false);
+//       barraBusqueda.getChildren().add(barra_busqueda);
+//       iniciarCarrusel();
+//       reiniciarCatalogo();
        
     }
     
@@ -111,6 +117,21 @@ public class VistaPrincipalController implements Initializable {
         for(int i=0;i<juegos.size();i++){
             Image tmp=App.getImage("Images/Destacados/"+juegos.get(i).getTitulo()+".jpg");
             retorno.addLast(tmp);
+            int d=i;
+            imgvDestacado.setOnMouseClicked(new EventHandler<MouseEvent>(){    
+            @Override
+            public void handle(MouseEvent event){
+                
+                try {
+                    abrirDestacado(juegos.get(d));
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+        
+        });
+            
+            
         }
         
         return retorno;
@@ -144,25 +165,29 @@ public class VistaPrincipalController implements Initializable {
     
     //setOnMouseClicked para haciendo click en la img, acceder a la vista de Axcel.
     //CAMBIADO POR AXCEL
-    public void abrirDestacado(){
+    public void abrirDestacado(Juego j) throws IOException{
         imgvDestacado.setOnMouseClicked(new EventHandler<MouseEvent>(){
             @Override
             public void handle(MouseEvent event){
-                if(isModoOscuroOn){
-                    VentanaDetalleController.modo="black";
-                    VentanaDetalleController.modocontrario="white";
-                }else{
-                    VentanaDetalleController.modo="white";
-                    VentanaDetalleController.modocontrario="black";
+                try {
+                    if(isModoOscuroOn){
+                        VentanaDetalleController.modo="black";
+                        VentanaDetalleController.modocontrario="white";
+                    }else{
+                        VentanaDetalleController.modo="white";
+                        VentanaDetalleController.modocontrario="black";
+                    }
+                    VentanaDetalleController.usr=App.usr;
+                    VentanaDetalleController.selected=j;
+                    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
+                    Parent root1 = fxmloader.load();
+                    Stage s=(Stage)root.getScene().getWindow();
+                    Scene scene=new Scene(root1,1280,720);
+                    s.setScene(scene);
+                    s.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
                 }
-                VentanaDetalleController.usr=App.usr;
-                VentanaDetalleController.selected=j;
-                FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
-                Parent root1 = fxmloader.load();
-                Stage s=(Stage)root.getScene().getWindow();
-                Scene scene=new Scene(root1,1280,720);
-                s.setScene(scene);
-                s.show();
             }
         
         });
@@ -177,7 +202,7 @@ public class VistaPrincipalController implements Initializable {
         }
     }
     
-    private void llenarCatalogo(){
+    private void llenarCatalogo() {
 //        flowPane.setPadding(new Insets(20,20,20,20));
         for(int i=0;i<juegos.size();i++){
             Juego actual=juegos.get(i);
@@ -197,7 +222,13 @@ public class VistaPrincipalController implements Initializable {
             imgvJuego.setImage(image);
             
             imgvJuego.setOnMouseClicked(e->{
-                abrirVentanaJuego(actual);
+                try{
+                    abrirVentanaJuego(actual);
+                }catch(IOException e1)
+                {
+                    System.out.println("Se cayo");
+                }
+                
             });
             vbJuego.getChildren().add(imgvJuego);
             Label titulo=new Label(juegos.get(i).getTitulo());
@@ -225,7 +256,7 @@ public class VistaPrincipalController implements Initializable {
     }
     
     //CAMBIADO POR AXCEL
-    public void abrirVentanaJuego(Juego j){
+    public void abrirVentanaJuego(Juego j) throws IOException{
         if(isModoOscuroOn){
         VentanaDetalleController.modo="black";
         VentanaDetalleController.modocontrario="white";

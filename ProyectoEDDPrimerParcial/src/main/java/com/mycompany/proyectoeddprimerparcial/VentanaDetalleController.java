@@ -2,8 +2,12 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
-package ProyectoEDD;
+package com.mycompany.proyectoeddprimerparcial;
 
+import Modelo.Juego;
+import Modelo.Resenia;
+import Modelo.Usuario;
+import com.mycompany.proyectoeddprimerparcial.App;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;

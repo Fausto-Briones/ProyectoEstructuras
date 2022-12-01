@@ -4,6 +4,12 @@
  */
 package Modelo;
 
+import com.mycompany.proyectoeddprimerparcial.App;
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import javafx.scene.image.Image;
 
 /**
@@ -18,8 +24,8 @@ public class Juego {
     private String desarrolladora;
     private String anio;
     private String precio;
-    private TDAArraylist<Image> images;
-    private TDAArraylist<Resenia> resenias;
+    private LDEC<Image> images;
+    private LDEC<Resenia> resenias;
     
     public Juego(String id, String titulo, String descripcion,String genero,String desarrolladora, String anio, String precio) {
         this.id = id;
@@ -30,6 +36,7 @@ public class Juego {
         this.anio = anio;
         this.precio = precio;
         images=cargarImagenes(id);
+        resenias=cargarResenias(id);
     }
 
     public String getId() {
@@ -88,27 +95,27 @@ public class Juego {
         this.precio = precio;
     }
 
-    public TDAArraylist<Image> getImages() {
+    public LDEC<Image> getImages() {
         return images;
     }
 
-    public void setImages(TDAArraylist<Image> images) {
+    public void setImages(LDEC<Image> images) {
         this.images = images;
     }
     
-    public TDAArraylist<Resenia> getResenias() {
+    public LDEC<Resenia> getResenias() {
         return resenias;
     }
 
-    public void setResenias(TDAArraylist<Resenia> resenias) {
+    public void setResenias(LDEC<Resenia> resenias) {
         this.resenias = resenias;
     }
     
     
     
     
-    private TDAArraylist<Image> cargarImagenes(String id){
-        TDAArraylist<Image> result=new TDAArraylist<>();
+    private LDEC<Image> cargarImagenes(String id){
+        LDEC<Image> result=new LDEC<>();
         for(int i=1;i<6;i++){
         try(FileInputStream input=new FileInputStream(App.pathSS+id+"/"+"ss"+i+".jpg")){
         Image img=new Image(input,686,395,false,true);
@@ -120,8 +127,8 @@ public class Juego {
         return result;
     }
     
-    private TDAArraylist<Resenia> cargarResenias(String id){
-        TDAArraylist<Resenia> result=new TDAArraylist<>();
+    private LDEC<Resenia> cargarResenias(String id){
+        LDEC<Resenia> result=new LDEC<>();
         try ( BufferedReader bfr = new BufferedReader(new FileReader(App.pathReviews+id+"/reviews.txt",StandardCharsets.UTF_8))) {
             bfr.readLine();
             String linea=bfr.readLine();

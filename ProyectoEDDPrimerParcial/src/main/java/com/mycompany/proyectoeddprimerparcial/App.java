@@ -12,7 +12,11 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import Modelo.LinkedListDobleCircular;
+import Modelo.Usuario;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import javafx.scene.image.Image;
 
 /**
@@ -24,12 +28,12 @@ public class App extends Application {
     public static Usuario usr;
     public static String pathSS="Images/";
     public static String pathReviews="reviews/";
-    public static String pathUsuarios="usuarios/";
+    public static String pathUsuarios="Usuarios/";
     
     
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("VentanaPrincipalDemo"), 1280, 720);
+        scene = new Scene(loadFXML("Login"), 1280, 720);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Game Store");
@@ -85,5 +89,37 @@ public class App extends Application {
         }
         return juegos;
     }
+    public static void abrirVentana(String ventana){
+        try {
+            Scene scene1=new Scene(loadFXML(ventana), 1280, 720);
+            Stage s=new Stage();
+            s.setScene(scene1);
+            s.setResizable(false);
+            s.setTitle("Game Store");
+            s.show();
+        } catch (IOException ex) {
+            
+        }
+    }
+    public static void serializarUsuario(Usuario usr1){
+    try(ObjectOutputStream fos=new ObjectOutputStream(new FileOutputStream(App.pathUsuarios+usr1.getId()+".bin"))){
+    fos.writeObject(usr1);
+    }catch(IOException ex1){
+    }
+    }
+    public static Usuario leerUsuario(String usuario){
+    try(ObjectInputStream ros=new ObjectInputStream(new FileInputStream(App.pathUsuarios+usuario+".bin"))){
+    //System.out.println(usuario);
+    Usuario usr2=(Usuario)ros.readObject();
+    
+    return usr2;
+    }catch(IOException | ClassNotFoundException ex1){
+    }
+    return null;
+    }
+    
+    
+    
+    
     
 }

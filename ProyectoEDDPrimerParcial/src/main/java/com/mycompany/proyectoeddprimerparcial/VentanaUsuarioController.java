@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/javafx/FXMLController.java to edit this template
  */
-package ProyectoEDD;
+package com.mycompany.proyectoeddprimerparcial;
 
-import static ProyectoEDD.VentanaDetalleController.modo;
-import static ProyectoEDD.VentanaDetalleController.modocontrario;
-import static ProyectoEDD.VentanaDetalleController.usr;
+
+import Modelo.Juego;
+import Modelo.Usuario;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
