@@ -21,7 +21,7 @@ import javafx.scene.image.Image;
 public class App extends Application {
 
     private static Scene scene;
-
+    public static Usuario usr;
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("VentanaPrincipalDemo"), 1280, 720);
