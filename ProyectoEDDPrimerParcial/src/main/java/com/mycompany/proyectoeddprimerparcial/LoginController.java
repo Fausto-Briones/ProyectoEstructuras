@@ -20,6 +20,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 
@@ -29,7 +30,9 @@ import javafx.stage.Stage;
  * @author jexa1
  */
 public class LoginController implements Initializable {
-
+    
+    @FXML
+    private VBox vboxRoot;
     @FXML
     private TextField txfUsuario;
     @FXML
@@ -119,7 +122,7 @@ public class LoginController implements Initializable {
         Platform.runLater(()->{
             try {
                 Thread.sleep(300);
-                App.abrirVentana("VistaPrincipal");
+                App.abrirVentana("VentanaPrincipalDemo");
                 Stage s=(Stage)btnRegistrar.getScene().getWindow();
                 s.close();
             } catch (InterruptedException ex) {

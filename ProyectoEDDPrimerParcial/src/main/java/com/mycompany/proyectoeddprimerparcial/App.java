@@ -37,7 +37,9 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Game Store");
+        System.out.println("Anyamemby");
         stage.show();
+        
     }
 
     static void setRoot(String fxml) throws IOException {

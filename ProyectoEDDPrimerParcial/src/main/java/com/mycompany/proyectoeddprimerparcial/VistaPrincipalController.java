@@ -90,24 +90,24 @@ public class VistaPrincipalController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-//       isModoOscuroOn=true;
-//       btnModoOscuro.setOnAction(e->{
-//           cambiarModo();
-//       });
-//       cleanList();
-//       //llenarCatalogo();
-//       img_juego_actual = imgsDestacados.get(0);
-//       imgvDestacado.setImage(img_juego_actual);
-//       imgvDestacado.setPreserveRatio(true);
-//       barra_busqueda = new TextField();
-////       HBox.setMargin(barra_busqueda,new Insets(20,20,20,20));
-////       HBox.setMargin(btnModoOscuro,new Insets(20,20,20,20));
-//       barra_busqueda.setPromptText("Buscar en la tienda");
-//       barra_busqueda.setPrefWidth(200);
-//       barra_busqueda.setFocusTraversable(false);
-//       barraBusqueda.getChildren().add(barra_busqueda);
-//       iniciarCarrusel();
-//       reiniciarCatalogo();
+       isModoOscuroOn=true;
+       btnModoOscuro.setOnAction(e->{
+           cambiarModo();
+       });
+       cleanList();
+       llenarCatalogo();
+       img_juego_actual = imgsDestacados.get(0);
+       imgvDestacado.setImage(img_juego_actual);
+       imgvDestacado.setPreserveRatio(true);
+       barra_busqueda = new TextField();
+       HBox.setMargin(barra_busqueda,new Insets(20,20,20,20));
+       HBox.setMargin(btnModoOscuro,new Insets(20,20,20,20));
+       barra_busqueda.setPromptText("Buscar en la tienda");
+       barra_busqueda.setPrefWidth(200);
+       barra_busqueda.setFocusTraversable(false);
+       barraBusqueda.getChildren().add(barra_busqueda);
+       iniciarCarrusel();
+       reiniciarCatalogo();
        
     }
     
@@ -115,6 +115,7 @@ public class VistaPrincipalController implements Initializable {
         LinkedListDobleCircular<Image> retorno=new LinkedListDobleCircular<>();
         
         for(int i=0;i<juegos.size();i++){
+            //System.out.println("HOLA QUE APASA");
             Image tmp=App.getImage("Images/Destacados/"+juegos.get(i).getTitulo()+".jpg");
             retorno.addLast(tmp);
             int d=i;
