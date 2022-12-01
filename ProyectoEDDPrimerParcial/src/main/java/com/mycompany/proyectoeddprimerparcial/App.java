@@ -22,7 +22,7 @@ public class App extends Application {
 
     private static Scene scene;
     public static Usuario usr;
-    public static String pathSS="images/";
+    public static String pathSS="Images/";
     public static String pathReviews="reviews/";
     public static String pathUsuarios="usuarios/";
     
