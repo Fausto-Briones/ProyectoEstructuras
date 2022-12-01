@@ -119,7 +119,7 @@ public class LoginController implements Initializable {
         Platform.runLater(()->{
             try {
                 Thread.sleep(300);
-                App.abrirVentana("VistaPrincipal");
+                App.abrirVentana("VentanaPrincipalDemo");
                 Stage s=(Stage)btnRegistrar.getScene().getWindow();
                 s.close();
             } catch (InterruptedException ex) {
