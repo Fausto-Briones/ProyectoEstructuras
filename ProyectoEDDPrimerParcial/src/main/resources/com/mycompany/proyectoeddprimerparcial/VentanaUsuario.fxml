@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.FlowPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<ScrollPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ProyectoEDD.VentanaUsuarioController">
+   <content>
+      <VBox fx:id="vboxMain" prefHeight="720.0" prefWidth="1280.0" spacing="30.0">
+         <children>
+            <HBox fx:id="buttonHbox" prefHeight="30.0" prefWidth="822.0">
+               <children>
+                  <Button fx:id="backButton" mnemonicParsing="false" onAction="#regresarDetalle" prefHeight="50.0" prefWidth="39.0" style="-fx-background-color: black;" text="&lt;" textFill="WHITE">
+                     <HBox.margin>
+                        <Insets left="5.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </Button>
+                  <HBox fx:id="hboxModo" prefHeight="70.0" prefWidth="70.0" style="-fx-border-color: white; -fx-border-width: 3; -fx-border-radius: 5;">
+                     <children>
+                        <Button fx:id="botonLuz" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#setLight" prefHeight="35.0" prefWidth="35.0">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                        <Button fx:id="botonNoche" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#setNight" prefHeight="35.0" prefWidth="35.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets left="1000.0" />
+                     </HBox.margin>
+                  </HBox>
+                  <HBox fx:id="hboxModo1" prefHeight="35.0" prefWidth="35.0">
+                     <children>
+                        <Button fx:id="botonSalir" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#desloggear" prefHeight="35.0" prefWidth="35.0" style="-fx-background-color: red;">
+                           <HBox.margin>
+                              <Insets />
+                           </HBox.margin>
+                        </Button>
+                     </children>
+                     <HBox.margin>
+                        <Insets left="109.0" top="3.0" />
+                     </HBox.margin>
+                  </HBox>
+               </children>
+            </HBox>
+            <HBox prefHeight="100.0" prefWidth="200.0">
+               <children>
+                  <Text fx:id="usrWishTitle" strokeType="OUTSIDE" strokeWidth="0.0" text="Text">
+                     <font>
+                        <Font size="36.0" />
+                     </font></Text>
+               </children>
+            </HBox>
+            <FlowPane fx:id="flowWish" prefHeight="200.0" prefWidth="200.0" />
+         </children>
+      </VBox>
+   </content>
+</ScrollPane>
