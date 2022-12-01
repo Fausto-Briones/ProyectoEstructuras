@@ -22,6 +22,11 @@ public class App extends Application {
 
     private static Scene scene;
     public static Usuario usr;
+    public static String pathSS="images/";
+    public static String pathReviews="reviews/";
+    public static String pathUsuarios="usuarios/";
+    
+    
     @Override
     public void start(Stage stage) throws IOException {
         scene = new Scene(loadFXML("VentanaPrincipalDemo"), 1280, 720);
