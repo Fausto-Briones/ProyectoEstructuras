@@ -48,7 +48,7 @@ public class VistaPrincipalController implements Initializable {
     private LinkedListDobleCircular<Juego> juegos=App.cargarJuegos();
     private LinkedListDobleCircular<Image> imgsDestacados=cargarDestacados();
     @FXML
-    private VBox root;
+    public static VBox root;
     @FXML
     private HBox cabecera;
     @FXML
@@ -82,7 +82,7 @@ public class VistaPrincipalController implements Initializable {
     private HBox hbCatalogo;
     @FXML
     private Button btnModoOscuro;
-    private boolean isModoOscuroOn;
+    public static boolean isModoOscuroOn;
     
     Image img_juego_actual;
     /**
@@ -257,7 +257,7 @@ public class VistaPrincipalController implements Initializable {
     }
     
     //CAMBIADO POR AXCEL
-    public void abrirVentanaJuego(Juego j) throws IOException{
+    public static void abrirVentanaJuego(Juego j) throws IOException{
         if(isModoOscuroOn){
         VentanaDetalleController.modo="black";
         VentanaDetalleController.modocontrario="white";

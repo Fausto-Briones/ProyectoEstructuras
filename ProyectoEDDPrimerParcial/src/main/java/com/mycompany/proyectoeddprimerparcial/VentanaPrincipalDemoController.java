@@ -8,9 +8,12 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.Initializable;
 import Modelo.Juego;
+import Modelo.LDEC;
 import Modelo.LinkedListDobleCircular;
 import Modelo.TDAArraylist;
+import java.io.IOException;
 import java.net.URL;
+import java.util.Comparator;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -44,6 +47,7 @@ public class VentanaPrincipalDemoController implements Initializable {
     private LinkedListDobleCircular<Juego> juegos=App.cargarJuegos();
     //private LinkedListDobleCircular<Image> imgsDestacados=cargarDestacados();
     private LinkedListDobleCircular<Image> imgsCatalogo = llenarCatalogo();
+    private LinkedListDobleCircular<VBox> vboxes=llenarCatalogo2(juegos);
     
     @FXML
     private ScrollPane root;
@@ -61,6 +65,7 @@ public class VentanaPrincipalDemoController implements Initializable {
     private Button btnModoOscuro;
     private boolean isModoOscuroOn;
     private TextField barra_busqueda;
+    private TextField barra_busquedaAnio;
     Image img_juego_actual;
     Juego juego_actual;
     /**
@@ -96,8 +101,8 @@ public class VentanaPrincipalDemoController implements Initializable {
        precio2.setText(juegos.get(1).getPrecio());
        precio2.setTextFill(Color.WHITE);
        
-       vbox1.getChildren().addAll(imgv1,lbl_titulo_juego1,precio1);
-       vbox2.getChildren().addAll(imgv2,lbl_titulo_juego2,precio2);
+       vbox1.getChildren().addAll(vboxes.get(0));
+       vbox2.getChildren().addAll(vboxes.get(1));
        moverCatalogo();
        /*
        barra_busqueda = new TextField();
@@ -128,29 +133,95 @@ public class VentanaPrincipalDemoController implements Initializable {
     
     public void moverIzq(){
         btn_cat_izq.setOnAction(e->{
-            img_juego_actual = imgsCatalogo.getAnterior(imgsCatalogo.getAnterior(img_juego_actual));
-            imgv1.setImage(img_juego_actual);
-            juego_actual = juegos.getAnterior(juegos.getAnterior(juego_actual));
-            lbl_titulo_juego1.setText(juego_actual.getTitulo());
-            precio1.setText(juego_actual.getPrecio());
-            imgv2.setImage(imgsCatalogo.getSiguiente(img_juego_actual));
-            lbl_titulo_juego2.setText(juegos.getSiguiente(juego_actual).getTitulo());
-            precio2.setText(juegos.getSiguiente(juego_actual).getPrecio());
+            VBox tmp=(VBox)vbox1.getChildren().get(0);
+            vbox1.getChildren().clear();
+            vbox1.getChildren().add(vboxes.getAnterior(vboxes.getAnterior(tmp)));
+            vbox2.getChildren().clear();
+            vbox2.getChildren().add(vboxes.getAnterior(tmp));
         });
     }
     
     public void moverDer(){
         btn_cat_der.setOnAction(e->{
-            img_juego_actual = imgsCatalogo.getSiguiente(imgsCatalogo.getSiguiente(img_juego_actual));
-            imgv1.setImage(img_juego_actual);
-            juego_actual = juegos.getSiguiente(juegos.getSiguiente(juego_actual));
-            lbl_titulo_juego1.setText(juego_actual.getTitulo());
-            precio1.setText(juego_actual.getPrecio());
-            imgv2.setImage(imgsCatalogo.getSiguiente(img_juego_actual));
-            lbl_titulo_juego2.setText(juegos.getSiguiente(juego_actual).getTitulo());
-            precio2.setText(juegos.getSiguiente(juego_actual).getPrecio());
-        
+            VBox tmp=(VBox)vbox2.getChildren().get(0);
+            vbox1.getChildren().clear();
+            vbox1.getChildren().add(vboxes.getSiguiente(tmp));
+            vbox2.getChildren().clear();
+            vbox2.getChildren().add(vboxes.getSiguiente(vboxes.getSiguiente(tmp)));
         });
+    }
+    public LDEC<Juego> buscarJ() {
+        LDEC<Juego> tmp=new LDEC<>();
+        for(int i=0;i<juegos.size();i++){
+            tmp.addLast(juegos.get(i));
+        }
+        Comparator comparador = new Comparator<Juego>() {
+            @Override
+            public int compare(Juego j1, Juego j2) {
+                if (escogerCondicion(j1,j2)) {
+                    return 0;
+                } else {
+                    return 1;
+                }
+            }
+        };
+        LDEC<Juego> resultado=tmp.findAll(comparador, new Juego(barra_busqueda.getText(),barra_busquedaAnio.getText()));
+        return resultado;
+    }
+
+    private boolean escogerCondicion(Juego j1, Juego j2) {
+        String titulo = barra_busqueda.getText();
+        String anio = barra_busquedaAnio.getText();
+        boolean condicion=true;
+        if (!titulo.equals("") && !anio.equals("")) {
+            condicion = j1.getTitulo().equals(j2.getTitulo()) && j1.getAnio().equals(j2.getAnio());
+        } else if (!titulo.equals("") && anio.equals("")) {
+            condicion = j1.getTitulo().equals(j2.getTitulo());
+        } else if (titulo.equals("") && !anio.equals("")) {
+            condicion = j1.getAnio().equals(j2.getAnio());
+        }
+        return condicion;
+    }
+    private LinkedListDobleCircular<VBox> llenarCatalogo2(LinkedListDobleCircular<Juego> juegosl) {
+        LinkedListDobleCircular<VBox> tmp=new LinkedListDobleCircular<>();
+        for (int i = 0; i < juegosl.size(); i++) {
+            Juego actual = juegosl.get(i);
+            VBox vbJuego = new VBox();
+            ImageView imgvJuego = new ImageView();
+            imgvJuego.setImage(App.getImage("Images/" + actual.getTitulo() + ".jpg"));
+            imgvJuego.setFitHeight(227);
+            imgvJuego.setPreserveRatio(true);
+            Rectangle clip = new Rectangle(170, 227);
+            clip.setArcWidth(30);
+            clip.setArcHeight(30);
+            imgvJuego.setClip(clip);
+            SnapshotParameters parameters = new SnapshotParameters();
+            parameters.setFill(Color.TRANSPARENT);
+            WritableImage image = imgvJuego.snapshot(parameters, null);
+            imgvJuego.setClip(null);
+            imgvJuego.setImage(image);
+
+            imgvJuego.setOnMouseClicked(e -> {
+                try {
+                    VistaPrincipalController.abrirVentanaJuego(actual);
+                } catch (IOException e1) {
+                    System.out.println("Se cayo");
+                }
+
+            });
+            vbJuego.getChildren().add(imgvJuego);
+            Label titulo = new Label(juegos.get(i).getTitulo());
+//            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            titulo.setTextFill(Color.WHITE);
+            vbJuego.getChildren().add(titulo);
+            Label precio = new Label(juegos.get(i).getPrecio());
+//            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            precio.setTextFill(Color.WHITE);
+            vbJuego.getChildren().add(precio);
+            vbJuego.setSpacing(5);
+            tmp.addLast(vbJuego);
+        }
+        return tmp;
     }
     
 }
