@@ -61,7 +61,7 @@ public class LoginController implements Initializable {
         lblAviso.setTextFill(Color.web("red"));
         try ( ObjectInputStream input = new ObjectInputStream(new FileInputStream("Usuarios/" + txfUsuario.getText()))) {
             Usuario user = (Usuario) input.readObject();
-            if (user.getClave().equals(txfClave.getText())) {
+            if (user.getContrasenia().equals(txfClave.getText())) {
                 txfUsuario.setEditable(false);
                 txfClave.setEditable(false);
                 lblAviso.setTextFill(Color.web("green"));
