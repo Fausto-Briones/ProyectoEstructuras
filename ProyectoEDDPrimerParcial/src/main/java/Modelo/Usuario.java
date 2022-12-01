@@ -18,7 +18,7 @@ import java.io.Serializable;
 public class Usuario implements Serializable{
     private String id;
     private String contrasenia;
-    private LDEC<Juego>wishlist=new LDEC<Juego>();
+    private TDAArraylist<Juego>wishlist=new TDAArraylist<Juego>();
     
     public Usuario(String id,String contrasenia){
     this.id=id;
