@@ -62,7 +62,7 @@ public class LoginController implements Initializable {
 
     private void verificarIngreso() {
         lblAviso.setTextFill(Color.web("red"));
-        try ( ObjectInputStream input = new ObjectInputStream(new FileInputStream("Usuarios/" + txfUsuario.getText()))) {
+        try ( ObjectInputStream input = new ObjectInputStream(new FileInputStream("Usuarios/" + txfUsuario.getText()+".bin"))) {
             Usuario user = (Usuario) input.readObject();
             if (user.getContrasenia().equals(txfClave.getText())) {
                 txfUsuario.setEditable(false);
@@ -87,7 +87,7 @@ public class LoginController implements Initializable {
 
     private void registrar() {
         lblAviso.setTextFill(Color.web("red"));
-        try ( ObjectInputStream input = new ObjectInputStream(new FileInputStream("Usuarios/" + txfUsuario.getText()))) {
+        try ( ObjectInputStream input = new ObjectInputStream(new FileInputStream("Usuarios/" + txfUsuario.getText()+".bin"))) {
             lblAviso.setText("Nombre de usuario no disponible");
             limpiarCampos();
         } catch (FileNotFoundException f) {
