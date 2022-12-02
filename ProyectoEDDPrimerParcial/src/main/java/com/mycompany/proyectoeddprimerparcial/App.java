@@ -65,6 +65,19 @@ public class App extends Application {
        }
        return img;
     }
+    
+    public static Image getImage(String name,boolean destacado){
+        Image img=null;
+       try(FileInputStream f=new FileInputStream(name)){
+           img=new Image(f,300,160,false,true);
+       }catch(FileNotFoundException f){
+           System.out.println("No se encontró el archivo solicitado");
+       }catch(IOException i){
+           System.out.println("Hubo un error, inténtalo más tarde");
+       }
+       return img;
+    }
+    
     public static TDAArraylist<String[]> cargarDatos(String ruta){
         TDAArraylist<String[]> retorno=new TDAArraylist<>();
         try(BufferedReader bf=new BufferedReader(new FileReader(ruta))){
