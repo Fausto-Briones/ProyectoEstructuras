@@ -75,6 +75,7 @@ public class VentanaUsuarioController implements Initializable {
         cargarImagenesModos();
         usrWishTitle.setText(usr1.getId()+"'s Wishlist");
         cargarWishlist();
+        
     }    
     
     @FXML
@@ -209,6 +210,11 @@ public class VentanaUsuarioController implements Initializable {
     
     }
     
+    
+    
+    
+
+
     
     
     
