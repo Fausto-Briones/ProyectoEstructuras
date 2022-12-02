@@ -44,6 +44,7 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
@@ -148,17 +149,25 @@ public class VentanaDetalleController implements Initializable{
     @FXML
     ToggleGroup valoracion;
     @FXML
-    TextField textFieldEscribe;
+    TextArea textAreaEscribe;
     @FXML
     Button botonEnviar;
     @FXML
     HBox hboxRadios;
+    @FXML
+    Text textUsuario;
+    @FXML
+    Button botonCatalogo;
+    @FXML
+    Button botonExplorar;
     
-    public static String modo;
-    public static String modocontrario;
-    public static Juego selected;
+    
+    
+    public static String modo="black";
+    public static String modocontrario="white";
+    public static Juego selected=new Juego("1","God of War","Vale verga este juego","Accion","Santa Monica Studios","2018","59.99");
     //public String modo="white";
-    public static Usuario usr;
+    public static Usuario usr=new Usuario("AVGlatina1","12342342");
     
     
     @Override
@@ -168,7 +177,10 @@ public class VentanaDetalleController implements Initializable{
         comboOrden.getItems().addAll("Mas reciente", "Mas antiguo", "Mejor calificado", "Peor calificado");
         cargarImagenesModos();
         cambiarModo(modo,modocontrario);
+        textUsuario.setText(usr.getId());
         setearSalir();
+        backButton.setVisible(false);
+        eventsUsuario(textUsuario);
     }
     @FXML
     public void filtro(ActionEvent a){
@@ -200,6 +212,7 @@ public class VentanaDetalleController implements Initializable{
     HBox.setMargin(imgv,new Insets(25,100,0,100));
     setearSS();
     reseniasIniciales();
+        
     //imgvSS.setImage(selected.getImages().get(1));
     }
     
@@ -306,7 +319,8 @@ public class VentanaDetalleController implements Initializable{
     private void reseniasIniciales(){
     vboxOrderReviews.getChildren().clear();
     for(Resenia r:selected.getResenias()){
-         anadirVboxResenia(r,modocontrario);
+        //System.out.println(r.getAnio());
+        anadirVboxResenia(r,modocontrario);
         }
     
     }
@@ -477,7 +491,7 @@ public class VentanaDetalleController implements Initializable{
     backButton.setStyle("-fx-text-fill:"+modocontrario+";-fx-background-color:"+modo);
     mainScroll.setStyle("-fx-background-color:"+modo);        
     mainVbox.setStyle("-fx-background-color:"+modo);
-    gameTitle.setStyle("-fx-fill:"+modocontrario);
+    gameTitle.setStyle("-fx-fill:"+modocontrario+";-fx-font-size:36");
     textPrice.setStyle("-fx-fill:"+modocontrario);
     hboxGameImg.setStyle("-fx-background-color:"+modo);
     hboxTitlePrice.setStyle("-fx-background-color:"+modo);
@@ -495,6 +509,10 @@ public class VentanaDetalleController implements Initializable{
     textReview.setStyle("-fx-fill:"+modocontrario);
     textOrdenar.setStyle("-fx-fill:"+modocontrario);
     textDeja.setStyle("-fx-fill:"+modocontrario);
+    textUsuario.setStyle("-fx-fill:"+modocontrario);
+    botonCatalogo.setStyle("-fx-text-fill:"+modocontrario+";-fx-background-color:"+modo);
+    botonExplorar.setStyle("-fx-text-fill:"+modocontrario+";-fx-background-color:"+modo);
+    botonSalir.setStyle("-fx-background-color:red;-fx-background-radius:24;-fx-border-radius:20;-fx-border-width:3;-fx-border-color:"+modocontrario);
     for(Node r:hboxRadios.getChildren()){
     ((RadioButton)r).setStyle("-fx-text-fill:"+modocontrario);
     }
@@ -502,7 +520,7 @@ public class VentanaDetalleController implements Initializable{
     //comboOrden.setValue(ordenprevio);
     }
     public void setearSalir(){
-    try(FileInputStream input=new FileInputStream(App.pathSS+"door4.png")){
+    try(FileInputStream input=new FileInputStream(App.pathSS+"door5.png")){
         Image img= new Image(input,35,35,false,true);
         ImageView imgv=new ImageView(img);
         botonSalir.setGraphic(imgv);
@@ -546,6 +564,7 @@ public class VentanaDetalleController implements Initializable{
     Stage s=(Stage)textusuario.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
+    App.pilaVentanas.push("VentanaDetalle");
     s.show();
     }
     
@@ -556,23 +575,31 @@ public class VentanaDetalleController implements Initializable{
     
     }
     @FXML
-    public void desloggear(ActionEvent e){
+    public void desloggear(ActionEvent e) throws IOException{
     Alert conf_desloggear = new Alert(Alert.AlertType.CONFIRMATION);
         conf_desloggear.setHeaderText(null);
         conf_desloggear.setContentText("¿Está seguro de que desea cerrar sesion?");
         Optional<ButtonType> confirmacion = conf_desloggear.showAndWait();
     if (confirmacion.get() == ButtonType.OK) {
-    App.serializarUsuario(usr);
+    //App.serializarUsuario(App.usr);
+    App.usr=null;
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Login.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)mainScroll.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.push("VentanaDetalle");
+    s.show();
     }
     }
     @FXML
     public void guardarResenia(ActionEvent e){
     String puntaje=((RadioButton)valoracion.getSelectedToggle()).getText();
-    String comentario= textFieldEscribe.getText();
+    String comentario= textAreaEscribe.getText();
     try(BufferedWriter bfw=new BufferedWriter(new FileWriter(App.pathReviews+selected.getId()+"/reviews.txt",true))){
     bfw.newLine();
     bfw.write(usr.getId()+";"+comentario+";"+puntaje+";"+2022);
-    textFieldEscribe.clear();
+    textAreaEscribe.clear();
     //textFieldEscribe.setText("Escribe un comentario...");
     selected.getResenias().addLast(new Resenia(usr.getId(),comentario,Integer.parseInt(puntaje),2022));
     reseniasIniciales();
