@@ -29,7 +29,7 @@ public class App extends Application {
     public static String pathSS="Images/";
     public static String pathReviews="reviews/";
     public static String pathUsuarios="Usuarios/";
-    
+    public static Stack<String>pilaVentanas=new Stack<>();
     
     @Override
     public void start(Stage stage) throws IOException {
@@ -37,7 +37,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Game Store");
-        System.out.println("Anyamemby");
+        //System.out.println("Anyamemby");
         stage.show();
         
     }
