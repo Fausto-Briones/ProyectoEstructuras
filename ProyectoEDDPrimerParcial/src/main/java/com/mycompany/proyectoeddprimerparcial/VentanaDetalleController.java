@@ -179,7 +179,7 @@ public class VentanaDetalleController implements Initializable{
         cambiarModo(modo,modocontrario);
         textUsuario.setText(usr.getId());
         setearSalir();
-        backButton.setVisible(false);
+        //backButton.setVisible(false);
         eventsUsuario(textUsuario);
     }
     @FXML
@@ -424,8 +424,13 @@ public class VentanaDetalleController implements Initializable{
         }
     }
     @FXML
-    public void regresarPrincipal(){
-    
+    public void regresarPrincipal()throws IOException{
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource(App.pilaVentanas.pop()+".fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)mainScroll.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    s.show();
     }
     public void anadirVboxResenia(Resenia r3,String modocontrario){
     VBox vbresenia=new VBox();
