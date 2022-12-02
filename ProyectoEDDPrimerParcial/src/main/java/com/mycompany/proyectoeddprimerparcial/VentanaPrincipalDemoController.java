@@ -10,16 +10,22 @@ import javafx.fxml.Initializable;
 import Modelo.Juego;
 import Modelo.LinkedListDobleCircular;
 import Modelo.TDAArraylist;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
@@ -35,6 +41,7 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 /**
  * FXML Controller class
  *
@@ -42,71 +49,62 @@ import javafx.scene.shape.Rectangle;
  */
 public class VentanaPrincipalDemoController implements Initializable {
     private LinkedListDobleCircular<Juego> juegos=App.cargarJuegos();
-    //private LinkedListDobleCircular<Image> imgsDestacados=cargarDestacados();
     private LinkedListDobleCircular<Image> imgsCatalogo = llenarCatalogo();
-    
+    private LinkedListDobleCircular<VBox> vboxes=llenarCatalogo2(juegos);
+    private LinkedListDobleCircular<Juego> juegos_destacados = new LinkedListDobleCircular();
     @FXML
     private ScrollPane root;
     @FXML
     private Label lbl_cat;
-    @FXML
-    private VBox vbox1;
-    @FXML
-    private VBox vbox2;
     @FXML
     private Button btn_cat_izq;
     @FXML
     private Button btn_cat_der;
     @FXML
     private Button btnModoOscuro;
+    @FXML
+    private ImageView imgvDestacados;
+    @FXML 
+    private HBox hbox_catalogo;
+    @FXML
+    private HBox hbox_h;
     private boolean isModoOscuroOn;
     private TextField barra_busqueda;
     Image img_juego_actual;
     Juego juego_actual;
+    Juego juego_destacado_actual;
+    Image imagenDestacada_actual;
+    LinkedListDobleCircular<Image> imgsDestacados;
     /**
      * Initializes the controller class.
      */
-    
-    private ImageView imgv1 =  new ImageView();
-    private ImageView imgv2 = new ImageView();
-    private Label lbl_titulo_juego1 = new Label();
-    private Label lbl_titulo_juego2= new Label();
-    private Label precio1 = new Label();
-    private Label precio2 = new Label();
+    private TextField barra_nombre;
+    private TextField barra_anio;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        
+        moverDestacados(Thread.currentThread());
         isModoOscuroOn = true;
+        hbox_catalogo.getChildren().addAll(vboxes.get(0),vboxes.get(1),vboxes.get(2),vboxes.get(3),vboxes.get(4));
+        hbox_catalogo.setSpacing(25);
         //btnModoOscuro.setOnAction(e->{
           // cambiarModo();
        //});
-       juego_actual = juegos.get(0);
-       img_juego_actual = imgsCatalogo.get(0);
-       imgv1.setImage(img_juego_actual);
-       imgv1.setPreserveRatio(true);
-       imgv2.setImage(imgsCatalogo.get(1));
-       imgv2.setPreserveRatio(true);
-       imgv1.setFitHeight(300);
-       imgv2.setFitHeight(300);
-       lbl_titulo_juego1.setText(juego_actual.getTitulo());
-       lbl_titulo_juego1.setTextFill(Color.WHITE);
-       lbl_titulo_juego2.setText(juegos.get(1).getTitulo());
-       lbl_titulo_juego2.setTextFill(Color.WHITE);
-       precio1.setText(juego_actual.getPrecio());
-       precio1.setTextFill(Color.WHITE);
-       precio2.setText(juegos.get(1).getPrecio());
-       precio2.setTextFill(Color.WHITE);
        
-       vbox1.getChildren().addAll(imgv1,lbl_titulo_juego1,precio1);
-       vbox2.getChildren().addAll(imgv2,lbl_titulo_juego2,precio2);
+       barra_nombre=new TextField();
+       barra_nombre.setPromptText("Buscar por nombre");
+       barra_nombre.setFocusTraversable(false);
+       barra_anio=new TextField();
+       barra_anio.setPromptText("Buscar por año");
+       barra_anio.setFocusTraversable(false);
+       hbox_h.getChildren().addAll(barra_nombre,barra_anio);
+       hbox_h.setSpacing(20);
        moverCatalogo();
-       /*
-       barra_busqueda = new TextField();
-       HBox.setMargin(barra_busqueda,new Insets(20,20,20,20));
-       HBox.setMargin(btnModoOscuro,new Insets(20,20,20,20));
-       barra_busqueda.setPromptText("Buscar en la tienda");
-       barra_busqueda.setPrefWidth(200);
-       barra_busqueda.setFocusTraversable(false);
-       */
+       imgsDestacados=agregarDestacados();
+       imagenDestacada_actual = imgsDestacados.get(0);
+       imgvDestacados.setImage(imgsDestacados.get(0));
+       juego_destacado_actual = juegos_destacados.get(0);
+       
     }
     
     public LinkedListDobleCircular<Image> llenarCatalogo(){
@@ -125,32 +123,171 @@ public class VentanaPrincipalDemoController implements Initializable {
         moverIzq();
         moverDer();
     }
-    
     public void moverIzq(){
         btn_cat_izq.setOnAction(e->{
-            img_juego_actual = imgsCatalogo.getAnterior(imgsCatalogo.getAnterior(img_juego_actual));
-            imgv1.setImage(img_juego_actual);
-            juego_actual = juegos.getAnterior(juegos.getAnterior(juego_actual));
-            lbl_titulo_juego1.setText(juego_actual.getTitulo());
-            precio1.setText(juego_actual.getPrecio());
-            imgv2.setImage(imgsCatalogo.getSiguiente(img_juego_actual));
-            lbl_titulo_juego2.setText(juegos.getSiguiente(juego_actual).getTitulo());
-            precio2.setText(juegos.getSiguiente(juego_actual).getPrecio());
+		VBox tmp=(VBox)hbox_catalogo.getChildren().get(0);
+		hbox_catalogo.getChildren().clear();
+		for(int i=0;i<5;i++){
+			hbox_catalogo.getChildren().add(vboxes.getAnterior(tmp));
+			tmp=vboxes.getAnterior(tmp);
+		}
+        });
+    }
+
+public void moverDer(){
+        btn_cat_der.setOnAction(e->{
+            VBox tmp=(VBox)hbox_catalogo.getChildren().get(4);
+            hbox_catalogo.getChildren().clear();
+            for(int i=0;i<5;i++){
+			hbox_catalogo.getChildren().add(vboxes.getSiguiente(tmp));
+			tmp=vboxes.getSiguiente(tmp);
+		}
         });
     }
     
-    public void moverDer(){
-        btn_cat_der.setOnAction(e->{
-            img_juego_actual = imgsCatalogo.getSiguiente(imgsCatalogo.getSiguiente(img_juego_actual));
-            imgv1.setImage(img_juego_actual);
-            juego_actual = juegos.getSiguiente(juegos.getSiguiente(juego_actual));
-            lbl_titulo_juego1.setText(juego_actual.getTitulo());
-            precio1.setText(juego_actual.getPrecio());
-            imgv2.setImage(imgsCatalogo.getSiguiente(img_juego_actual));
-            lbl_titulo_juego2.setText(juegos.getSiguiente(juego_actual).getTitulo());
-            precio2.setText(juegos.getSiguiente(juego_actual).getPrecio());
+    public LinkedListDobleCircular<Image> agregarDestacados(){
+        LinkedListDobleCircular<Image> lista_Destacados = new LinkedListDobleCircular();
+        
+        for(int i=0;i<juegos.size();i++){
+            Image tmp=App.getImage("Images/Destacados/"+juegos.get(i).getTitulo()+".jpg",true);
+            if(tmp!=null){
+            juegos_destacados.addLast(juegos.get(i));
+            lista_Destacados.addLast(tmp);
+            }
+        }
+        return lista_Destacados;
+        
+    }
+    
+    public void moverDestacados(Thread hilo){
+        Thread hilo1 = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                    while(hilo.isAlive()){
+                        Platform.runLater(()->{
+                        
+                            imagenDestacada_actual = imgsDestacados.getSiguiente(imagenDestacada_actual);
+                            juego_destacado_actual = juegos_destacados.getSiguiente(juego_destacado_actual);
+                            imgvDestacados.setImage(imagenDestacada_actual);
+                            try {
+                                abrirDestacado(juego_destacado_actual);
+                            } catch (IOException ex) {
+                                ex.printStackTrace();
+                            }
+                        });
+                        try{
+                            Thread.sleep(2000);
+                        }catch(InterruptedException ex){
+                        }
+                    }
+                
+            }
+        });
+        hilo1.start();
+        
+        
+    }
+    
+     private LinkedListDobleCircular<VBox> llenarCatalogo2(LinkedListDobleCircular<Juego> juegosl) {
+        LinkedListDobleCircular<VBox> tmp=new LinkedListDobleCircular<>();
+        for (int i = 0; i < juegosl.size(); i++) {
+            Juego actual = juegosl.get(i);
+            VBox vbJuego = new VBox();
+            ImageView imgvJuego = new ImageView();
+            imgvJuego.setImage(App.getImage("Images/" + actual.getTitulo() + ".jpg"));
+            imgvJuego.setFitHeight(227);
+            imgvJuego.setPreserveRatio(true);
+            Rectangle clip = new Rectangle(170, 227);
+            clip.setArcWidth(30);
+            clip.setArcHeight(30);
+            imgvJuego.setClip(clip);
+            SnapshotParameters parameters = new SnapshotParameters();
+            parameters.setFill(Color.TRANSPARENT);
+            WritableImage image = imgvJuego.snapshot(parameters, null);
+            imgvJuego.setClip(null);
+            imgvJuego.setImage(image);
+
+            imgvJuego.setOnMouseClicked(e -> {
+                
+                
+                try {
+                    abrirVentanaJuego(actual);
+                } catch (IOException e1) {
+                    System.out.println("Se cayo");
+                }
+                
+            });
+            vbJuego.getChildren().add(imgvJuego);
+            Label titulo = new Label(juegos.get(i).getTitulo());
+            titulo.setPadding(new Insets(5,5,5,5));
+            titulo.setTextFill(Color.WHITE);
+            vbJuego.getChildren().add(titulo);
+            Label precio = new Label(juegos.get(i).getPrecio());
+            precio.setTextFill(Color.WHITE);
+            precio.setPadding(new Insets(5,5,5,5));
+            vbJuego.getChildren().add(precio);
+            vbJuego.setSpacing(5);
+            tmp.addLast(vbJuego);
+            vbJuego.setCursor(Cursor.HAND);
+            imgvJuego.setOnMouseEntered(e->{
+                
+                vbJuego.setStyle("-fx-background-color:#343434;-fx-background-radius:15;");
+
+            });
+            
+            imgvJuego.setOnMouseExited(e->{
+                vbJuego.setStyle("-fx-background-color:#121212;-fx-background-radius:15;");
+            });
+        }
+        return tmp;
+    }
+     
+     public void abrirDestacado(Juego j) throws IOException{
+        imgvDestacados.setOnMouseClicked(new EventHandler<MouseEvent>(){
+            @Override
+            public void handle(MouseEvent event){
+                try {
+                    if(isModoOscuroOn){
+                        VentanaDetalleController.modo="black";
+                        VentanaDetalleController.modocontrario="white";
+                    }else{
+                        VentanaDetalleController.modo="white";
+                        VentanaDetalleController.modocontrario="black";
+                    }
+                    VentanaDetalleController.usr=App.usr;
+                    VentanaDetalleController.selected=j;
+                    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
+                    Parent root1 = fxmloader.load();
+                    Stage s=(Stage)root.getScene().getWindow();
+                    Scene scene=new Scene(root1,1280,720);
+                    s.setScene(scene);
+                    s.show();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
         
         });
     }
-    
+     
+     public void abrirVentanaJuego(Juego j) throws IOException{
+        if(isModoOscuroOn){
+        VentanaDetalleController.modo="black";
+        VentanaDetalleController.modocontrario="white";
+        }else{
+        VentanaDetalleController.modo="white";
+        VentanaDetalleController.modocontrario="black";
+        }
+        VentanaDetalleController.usr=App.usr;
+        VentanaDetalleController.selected=j;
+        FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
+        Parent root1 = fxmloader.load();
+        Stage s=(Stage)root.getScene().getWindow();
+        Scene scene=new Scene(root1,1280,720);
+        s.setScene(scene);
+        s.show();
+        
+    }
+     
+     
 }
