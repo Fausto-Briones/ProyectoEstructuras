@@ -571,7 +571,7 @@ public class VentanaDetalleController implements Initializable{
     @FXML
     public void anadirWishlist(ActionEvent e){
     botonWishlist.setText("Agregado exitosamente");
-    usr.anadirJuegoWish(selected);
+    App.usr.anadirJuegoWish(selected);
     
     }
     @FXML
