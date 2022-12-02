@@ -69,6 +69,7 @@ public class LoginController implements Initializable {
                 txfClave.setEditable(false);
                 lblAviso.setTextFill(Color.web("green"));
                 lblAviso.setText("Ingreso correcto");
+                App.usr=user;
                 abrirVistaPrincipal();
             } else {
                 lblAviso.setText("Los datos ingresados son incorrectos");
