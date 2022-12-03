@@ -206,7 +206,7 @@ public class VentanaDetalleController implements Initializable{
     ImageView imgv=new ImageView();
     imgv.setFitHeight(395);
     imgv.setFitWidth(686);
-    imgv.setImage(selected.getImages().getFirst());
+    imgv.setImage(Juego.cargarImagenes(selected.getId()).getFirst());
     hboxImgSS.getChildren().add(imgv);
     hboxImgSS.setEffect(new Reflection());
     HBox.setMargin(imgv,new Insets(25,100,0,100));
@@ -263,7 +263,7 @@ public class VentanaDetalleController implements Initializable{
     
     
     public void setearSS(){
-    for(Image img:selected.getImages()){
+    for(Image img:Juego.cargarImagenes(selected.getId())){
     VBox vimgv=new VBox();
     vimgv.setStyle("-fx-background-color:black");
     ImageView imgv=new ImageView();

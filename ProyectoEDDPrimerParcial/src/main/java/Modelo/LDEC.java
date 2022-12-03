@@ -22,7 +22,7 @@ public class LDEC<E> implements Iterable<E>,Serializable{
     length=0;
     }
     
-    private class Node<E> {
+    private class Node<E> implements Serializable{
     Node ant;
     E contenido;
     Node sig;

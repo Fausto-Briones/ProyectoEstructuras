@@ -122,9 +122,10 @@ public class App extends Application {
     }
 
     public static void serializarUsuario(Usuario usr1) {
-        try ( ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(App.pathUsuarios + usr1.getId() + ".bin"))) {
+        try ( ObjectOutputStream fos = new ObjectOutputStream(new FileOutputStream(App.pathUsuarios + usr1.getId() + ".bin",false))) {
             fos.writeObject(usr1);
         } catch (IOException ex1) {
+            ex1.printStackTrace();
         }
     }
 

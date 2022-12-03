@@ -19,6 +19,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -60,6 +61,12 @@ public class VentanaUsuarioController implements Initializable {
     Button backButton;
     @FXML
     HBox hboxModo;
+    @FXML
+    Button botonCatalogo;
+    @FXML
+    Button botonExplorar;
+    @FXML
+    Text textUsuario;
     
     public static String modo;
     public static String modocontrario;
@@ -70,6 +77,7 @@ public class VentanaUsuarioController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        textUsuario.setText(usr1.getId());
         cambiarModo(modo,modocontrario);
         setearSalir();
         cargarImagenesModos();
@@ -84,13 +92,21 @@ public class VentanaUsuarioController implements Initializable {
     }    
     
     @FXML
-    public void desloggear(ActionEvent e){
+    public void desloggear(ActionEvent e) throws IOException{
     Alert conf_desloggear = new Alert(Alert.AlertType.CONFIRMATION);
         conf_desloggear.setHeaderText(null);
         conf_desloggear.setContentText("¿Está seguro de que desea cerrar sesion?");
         Optional<ButtonType> confirmacion = conf_desloggear.showAndWait();
     if (confirmacion.get() == ButtonType.OK) {
-    App.serializarUsuario(usr1);
+    App.serializarUsuario(App.usr);
+    App.usr=null;
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Login.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)flowWish.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    //App.pilaVentanas.push("VentanaDetalle");
+    s.show();
     }
     }
     @FXML
@@ -106,7 +122,7 @@ public class VentanaUsuarioController implements Initializable {
         
     }
     public void setearSalir(){
-    try(FileInputStream input=new FileInputStream(App.pathSS+"door4.png")){
+    try(FileInputStream input=new FileInputStream(App.pathSS+"door5.png")){
         Image img= new Image(input,35,35,false,true);
         ImageView imgv=new ImageView(img);
         botonSalir.setGraphic(imgv);
@@ -130,12 +146,18 @@ public class VentanaUsuarioController implements Initializable {
     //reseniasIniciales();
     }
     public void cambiarModo(String modo,String modocontrario){
+        //System.out.println(modocontrario);
     hboxModo.setStyle("-fx-border-color:"+modocontrario+";-fx-border-width:3;-fx-border-radius:5");
     vboxMain.setStyle("-fx-background-color:"+modo);
     usrWishTitle.setStyle("-fx-fill:"+modocontrario);
     backButton.setStyle("-fx-text-fill:"+modocontrario+";-fx-background-color:"+modo);
-        
-        
+    textUsuario.setStyle("-fx-fill:"+modocontrario);
+    botonCatalogo.setStyle("-fx-text-fill:"+modocontrario+";-fx-background-color:"+modo);
+    botonExplorar.setStyle("-fx-text-fill:"+modocontrario+";-fx-background-color:"+modo);
+    botonSalir.setStyle("-fx-background-color:red;-fx-background-radius:24;-fx-border-radius:20;-fx-border-width:3;-fx-border-color:"+modocontrario);    
+    for(Node nodo:flowWish.getChildren()){
+    ((Label)((VBox)nodo).getChildren().get(1)).setStyle("-fx-text-fill:"+modocontrario);
+    }    
         
     }
     public void cargarImagenesModos(){
@@ -189,10 +211,10 @@ public class VentanaUsuarioController implements Initializable {
 //            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
             titulo.setTextFill(Color.WHITE);
             vbJuego.getChildren().add(titulo);
-            Label precio=new Label(actual.getPrecio());
+            //Label precio=new Label(actual.getPrecio());
 //            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
-            precio.setTextFill(Color.WHITE);
-            vbJuego.getChildren().add(precio);
+            //precio.setTextFill(Color.WHITE);
+            //vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
             flowWish.getChildren().add(vbJuego);
             
@@ -230,10 +252,10 @@ public class VentanaUsuarioController implements Initializable {
 //            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
             titulo.setTextFill(Color.WHITE);
             vbJuego.getChildren().add(titulo);
-            Label precio=new Label(actual.getPrecio());
+            //Label precio=new Label(actual.getPrecio());
 //            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
-            precio.setTextFill(Color.WHITE);
-            vbJuego.getChildren().add(precio);
+            //precio.setTextFill(Color.WHITE);
+            //vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
             flowWish.getChildren().add(vbJuego);
             

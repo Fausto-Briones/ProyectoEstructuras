@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.Serializable;
 import java.nio.charset.StandardCharsets;
 import javafx.scene.image.Image;
 
@@ -16,7 +17,7 @@ import javafx.scene.image.Image;
  *
  * @author jexa1
  */
-public class Juego {
+public class Juego implements Serializable{
     private String id;
     private String titulo;
     private String descripcion;
@@ -24,7 +25,7 @@ public class Juego {
     private String desarrolladora;
     private String anio;
     private String precio;
-    private LDEC<Image> images;
+    //private LDEC<Image> images;
     private LDEC<Resenia> resenias;
     
     public Juego(String id, String titulo, String descripcion,String genero,String desarrolladora, String anio, String precio) {
@@ -35,7 +36,7 @@ public class Juego {
         this.desarrolladora = desarrolladora;
         this.anio = anio;
         this.precio = precio;
-        images=cargarImagenes(id);
+        //images=cargarImagenes(id);
         resenias=cargarResenias(id);
     }
 
@@ -101,13 +102,7 @@ public class Juego {
         this.precio = precio;
     }
 
-    public LDEC<Image> getImages() {
-        return images;
-    }
-
-    public void setImages(LDEC<Image> images) {
-        this.images = images;
-    }
+    
     
     public LDEC<Resenia> getResenias() {
         return resenias;
@@ -120,7 +115,7 @@ public class Juego {
     
     
     
-    private LDEC<Image> cargarImagenes(String id){
+    public static LDEC<Image> cargarImagenes(String id){
         LDEC<Image> result=new LDEC<>();
         for(int i=1;i<6;i++){
         try(FileInputStream input=new FileInputStream(App.pathSS+id+"/"+"ss"+i+".jpg")){

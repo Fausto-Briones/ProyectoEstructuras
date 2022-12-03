@@ -4,11 +4,13 @@
  */
 package Modelo;
 
+import java.io.Serializable;
+
 /**
  *
  * @author AVGla
  */
-public class Resenia {
+public class Resenia implements Serializable{
     
     String usuario;
     String comentario;
