@@ -74,7 +74,12 @@ public class VentanaUsuarioController implements Initializable {
         setearSalir();
         cargarImagenesModos();
         usrWishTitle.setText(usr1.getId()+"'s Wishlist");
+        if(usr1.getId().equals(App.usr.getId())){
+        cargarWishlistMia();
+        }else{
         cargarWishlist();
+        }
+        
         
     }    
     
@@ -92,7 +97,7 @@ public class VentanaUsuarioController implements Initializable {
     public void regresarDetalle()throws IOException{
     VentanaDetalleController.modo=modo;
     VentanaDetalleController.modocontrario=modocontrario;
-    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource(App.pilaVentanas.pop()+".fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)vboxMain.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
@@ -203,13 +208,52 @@ public class VentanaUsuarioController implements Initializable {
 //            });
         }
     }
-    
+    public void cargarWishlistMia(){
+    for(int i=0;i<App.usr.getWishlist().getLength();i++){
+            Juego actual=App.usr.getWishlist().getI(i);
+            VBox vbJuego=new VBox();
+            ImageView imgvJuego=new ImageView();
+            imgvJuego.setImage(App.getImage("Images/"+actual.getTitulo()+".jpg"));
+            imgvJuego.setFitHeight(300);
+            imgvJuego.setPreserveRatio(true);
+            Rectangle clip=new Rectangle(225,300);
+            clip.setArcWidth(30);
+            clip.setArcHeight(30);
+            imgvJuego.setClip(clip);
+            SnapshotParameters parameters=new SnapshotParameters();
+            parameters.setFill(Color.TRANSPARENT);
+            WritableImage image=imgvJuego.snapshot(parameters,null);
+            imgvJuego.setClip(null);
+            imgvJuego.setImage(image);
+            vbJuego.getChildren().add(imgvJuego);
+            Label titulo=new Label(actual.getTitulo());
+//            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            titulo.setTextFill(Color.WHITE);
+            vbJuego.getChildren().add(titulo);
+            Label precio=new Label(actual.getPrecio());
+//            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
+            precio.setTextFill(Color.WHITE);
+            vbJuego.getChildren().add(precio);
+            vbJuego.setSpacing(5);
+            flowWish.getChildren().add(vbJuego);
+            
+//            imgvJuego.setOnMouseEntered(e->{
+//                imgvJuego.setFitWidth(230);
+//                imgvJuego.setFitHeight(305);
+//            });
+//            
+//            imgvJuego.setOnMouseExited(e->{
+//                imgvJuego.setFitWidth(225);
+//                imgvJuego.setFitHeight(300);
+//                
+//            });
+        }
+    }
     
     
     
     
     }
-    
     
     
     

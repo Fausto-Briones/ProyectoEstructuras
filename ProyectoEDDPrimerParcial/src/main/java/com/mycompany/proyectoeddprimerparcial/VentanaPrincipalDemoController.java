@@ -261,6 +261,7 @@ public class VentanaPrincipalDemoController implements Initializable {
                     }
                     VentanaDetalleController.usr = App.usr;
                     VentanaDetalleController.selected = j;
+                    App.pilaVentanas.push("VentanaPrincipalDemo");
                     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
                     Parent root1 = fxmloader.load();
                     Stage s = (Stage) root.getScene().getWindow();
@@ -285,6 +286,7 @@ public class VentanaPrincipalDemoController implements Initializable {
         }
         VentanaDetalleController.usr = App.usr;
         VentanaDetalleController.selected = j;
+        App.pilaVentanas.push("VentanaPrincipalDemo");
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
         Parent root1 = fxmloader.load();
         Stage s = (Stage) root.getScene().getWindow();
