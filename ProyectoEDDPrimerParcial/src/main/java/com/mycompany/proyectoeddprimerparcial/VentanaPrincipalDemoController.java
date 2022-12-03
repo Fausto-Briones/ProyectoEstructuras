@@ -90,9 +90,12 @@ public class VentanaPrincipalDemoController implements Initializable {
         isModoOscuroOn = true;
         hbox_catalogo.getChildren().addAll(vboxes.get(0), vboxes.get(1), vboxes.get(2), vboxes.get(3), vboxes.get(4));
         hbox_catalogo.setSpacing(25);
-        //btnModoOscuro.setOnAction(e->{
+        btnModoOscuro.setOnAction(e->{
         // cambiarModo();
-        //});
+            Stage s=(Stage) root.getScene().getWindow();
+            s.close();
+            App.abrirVentana("VentanaExplorar");
+        });
 
         barra_nombre = new TextField();
         barra_nombre.setPromptText("Buscar por nombre");
