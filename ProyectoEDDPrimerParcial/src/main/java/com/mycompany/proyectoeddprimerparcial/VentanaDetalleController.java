@@ -587,14 +587,14 @@ public class VentanaDetalleController implements Initializable{
         conf_desloggear.setContentText("¿Está seguro de que desea cerrar sesion?");
         Optional<ButtonType> confirmacion = conf_desloggear.showAndWait();
     if (confirmacion.get() == ButtonType.OK) {
-    //App.serializarUsuario(App.usr);
+    App.serializarUsuario(App.usr);
     App.usr=null;
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Login.fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)mainScroll.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
-    App.pilaVentanas.push("VentanaDetalle");
+    //App.pilaVentanas.push("VentanaDetalle");
     s.show();
     }
     }
