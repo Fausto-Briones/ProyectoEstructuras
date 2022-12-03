@@ -98,9 +98,10 @@ public class LoginController implements Initializable {
                 lblAviso.setText("La contraseña debe contener 8 caracteres o más");
                 limpiarCampos();
             } else {
-                try ( ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream("Usuarios/" + txfUsuario.getText()))) {
+                try ( ObjectOutputStream ob = new ObjectOutputStream(new FileOutputStream("Usuarios/" + txfUsuario.getText()+".bin"))) {
                     ob.writeObject(new Usuario(txfUsuario.getText(), txfClave.getText()));
                     lblAviso.setTextFill(Color.web("green"));
+                    App.usr=App.leerUsuario(txfUsuario.getText());
                     lblAviso.setText("Se ha registrado exitosamente");
                     txfUsuario.setEditable(false);
                     txfClave.setEditable(false);
