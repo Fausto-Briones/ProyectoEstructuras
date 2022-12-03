@@ -17,11 +17,13 @@ import java.io.IOException;
 import java.util.Comparator;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
@@ -100,8 +102,10 @@ public class VentanaExplorarController implements Initializable {
         for (int i = 0; i < juegosl.getLength(); i++) {
             Juego actual = juegosl.getI(i);
             VBox vbJuego = new VBox();
+            vbJuego.setAlignment(Pos.TOP_CENTER);
             ImageView imgvJuego = new ImageView();
-            imgvJuego.setImage(App.getImage("Images/" + actual.getTitulo() + ".jpg"));
+            Image img=App.getImage("Images/" + actual.getTitulo() + ".jpg",170,227);
+            imgvJuego.setImage(img);
             imgvJuego.setFitHeight(227);
             imgvJuego.setPreserveRatio(true);
             Rectangle clip = new Rectangle(170, 227);

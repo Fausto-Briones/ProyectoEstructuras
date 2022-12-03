@@ -4,26 +4,21 @@
  */
 package com.mycompany.proyectoeddprimerparcial;
 
-import java.net.URL;
-import java.util.ResourceBundle;
-import javafx.fxml.Initializable;
 import Modelo.Juego;
 import Modelo.LinkedListDobleCircular;
-import Modelo.TDAArraylist;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
@@ -37,8 +32,6 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.input.ScrollEvent;
-import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
@@ -90,9 +83,9 @@ public class VentanaPrincipalDemoController implements Initializable {
         isModoOscuroOn = true;
         hbox_catalogo.getChildren().addAll(vboxes.get(0), vboxes.get(1), vboxes.get(2), vboxes.get(3), vboxes.get(4));
         hbox_catalogo.setSpacing(25);
-        btnModoOscuro.setOnAction(e->{
-        // cambiarModo();
-            Stage s=(Stage) root.getScene().getWindow();
+        btnModoOscuro.setOnAction(e -> {
+            // cambiarModo();
+            Stage s = (Stage) root.getScene().getWindow();
             s.close();
             App.abrirVentana("VentanaExplorar");
         });
@@ -115,7 +108,6 @@ public class VentanaPrincipalDemoController implements Initializable {
 
     public LinkedListDobleCircular<Image> llenarCatalogo() {
         LinkedListDobleCircular<Image> retorno = new LinkedListDobleCircular<>();
-
         for (int i = 0; i < juegos.size(); i++) {
             Image tmp = App.getImage("Images/" + juegos.get(i).getTitulo() + ".jpg");
             retorno.addLast(tmp);
@@ -157,12 +149,21 @@ public class VentanaPrincipalDemoController implements Initializable {
 
     public LinkedListDobleCircular<Image> agregarDestacados() {
         LinkedListDobleCircular<Image> lista_Destacados = new LinkedListDobleCircular();
+        ImageView imgv = new ImageView();
+        Rectangle clip = new Rectangle(300, 160);
+        clip.setArcWidth(30);
+        clip.setArcHeight(30);
+        imgv.setClip(clip);
+        SnapshotParameters parameters = new SnapshotParameters();
+        parameters.setFill(Color.TRANSPARENT);
 
         for (int i = 0; i < juegos.size(); i++) {
             Image tmp = App.getImage("Images/Destacados/" + juegos.get(i).getTitulo() + ".jpg", true);
             if (tmp != null) {
+                imgv.setImage(tmp);
+                Image image = imgv.snapshot(parameters, null);
                 juegos_destacados.addLast(juegos.get(i));
-                lista_Destacados.addLast(tmp);
+                lista_Destacados.addLast(image);
             }
         }
         return lista_Destacados;
@@ -202,8 +203,10 @@ public class VentanaPrincipalDemoController implements Initializable {
         for (int i = 0; i < juegosl.size(); i++) {
             Juego actual = juegosl.get(i);
             VBox vbJuego = new VBox();
+            vbJuego.setAlignment(Pos.CENTER);
             ImageView imgvJuego = new ImageView();
-            imgvJuego.setImage(App.getImage("Images/" + actual.getTitulo() + ".jpg"));
+            Image img=App.getImage("Images/" + actual.getTitulo() + ".jpg",170,227);
+            imgvJuego.setImage(img);
             imgvJuego.setFitHeight(227);
             imgvJuego.setPreserveRatio(true);
             Rectangle clip = new Rectangle(170, 227);
@@ -236,7 +239,7 @@ public class VentanaPrincipalDemoController implements Initializable {
             vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
             tmp.addLast(vbJuego);
-            
+
             imgvJuego.setOnMouseEntered(e -> {
                 vbJuego.setCursor(Cursor.HAND);
                 vbJuego.setStyle("-fx-background-color:#343434;-fx-background-radius:15;");

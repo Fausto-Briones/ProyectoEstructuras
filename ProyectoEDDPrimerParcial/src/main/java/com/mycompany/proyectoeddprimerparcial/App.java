@@ -34,7 +34,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("Login"), 1280, 720);
+        scene = new Scene(loadFXML("VentanaExplorar"), 1280, 720);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Game Store");
@@ -60,6 +60,17 @@ public class App extends Application {
         Image img = null;
         try ( FileInputStream f = new FileInputStream(name)) {
             img = new Image(f);
+        } catch (FileNotFoundException f) {
+            System.out.println("No se encontró el archivo solicitado");
+        } catch (IOException i) {
+            System.out.println("Hubo un error, inténtalo más tarde");
+        }
+        return img;
+    }
+    public static Image getImage(String name,int width,int height) {
+        Image img = null;
+        try ( FileInputStream f = new FileInputStream(name)) {
+            img = new Image(f, width, height, false, true);
         } catch (FileNotFoundException f) {
             System.out.println("No se encontró el archivo solicitado");
         } catch (IOException i) {
