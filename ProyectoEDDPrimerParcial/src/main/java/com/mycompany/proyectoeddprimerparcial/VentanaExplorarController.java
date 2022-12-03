@@ -21,6 +21,7 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
 import javafx.scene.layout.VBox;
@@ -48,6 +49,8 @@ public class VentanaExplorarController implements Initializable {
     private Button btnAnteriores;
     @FXML
     private Button btnSiguientes;
+    @FXML
+    private ScrollPane root;
     private LinkedListDobleCircular<Juego> juegos=App.cargarJuegos();
     private static LinkedListDobleCircular<VBox> vboxes;
     
@@ -57,24 +60,8 @@ public class VentanaExplorarController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        btnBuscar.setOnAction(e->{
-            hboxJuegos.getChildren().clear();
-            vboxes=llenarCatalogo2(buscarJ());
-            if(vboxes.size()<=5){
-                btnAnteriores.setVisible(false);
-                btnSiguientes.setVisible(false);
-                for(int i=0;i<vboxes.size();i++){
-                    hboxJuegos.getChildren().add(vboxes.get(i));
-                }
-            }else{
-                btnAnteriores.setVisible(true);
-                btnSiguientes.setVisible(true);
-                for(int i=0;i<5;i++){
-                    hboxJuegos.getChildren().add(vboxes.get(i));
-                }
-            }
-            lblResultados.setVisible(true);
-        });
+        buscarJuego();
+        mover();
     }    
     public LDEC<Juego> buscarJ() {
         LDEC<Juego> tmp=new LDEC<>();
@@ -98,11 +85,11 @@ public class VentanaExplorarController implements Initializable {
     private boolean escogerCondicion(Juego j1, Juego j2) {
         String titulo = barra_busqueda.getText();
         String anio = barra_busquedaAnio.getText();
-        boolean condicion=true;
+        boolean condicion=false;
         if (!titulo.equals("") && !anio.equals("")) {
-            condicion = j1.getTitulo().equals(j2.getTitulo()) && j1.getAnio().equals(j2.getAnio());
+            condicion = j1.getTitulo().toLowerCase().contains(j2.getTitulo().toLowerCase()) && j1.getAnio().equals(j2.getAnio());
         } else if (!titulo.equals("") && anio.equals("")) {
-            condicion = j1.getTitulo().equals(j2.getTitulo());
+            condicion = j1.getTitulo().toLowerCase().contains(j2.getTitulo().toLowerCase());
         } else if (titulo.equals("") && !anio.equals("")) {
             condicion = j1.getAnio().equals(j2.getAnio());
         }
@@ -133,20 +120,21 @@ public class VentanaExplorarController implements Initializable {
                 try {
                     abrirVentanaJuego(actual);
                 } catch (IOException e1) {
-                    System.out.println("Se cayo");
+                    e1.printStackTrace();
                 }
                 
             });
             vbJuego.getChildren().add(imgvJuego);
-            Label titulo = new Label(juegos.get(i).getTitulo());
+            Label titulo = new Label(actual.getTitulo());
             titulo.setPadding(new Insets(5,5,5,5));
             titulo.setTextFill(Color.WHITE);
             vbJuego.getChildren().add(titulo);
-            Label precio = new Label(juegos.get(i).getPrecio());
+            Label precio = new Label(actual.getPrecio());
             precio.setTextFill(Color.WHITE);
             precio.setPadding(new Insets(5,5,5,5));
             vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
+            vbJuego.setPrefSize(170,227);
             tmp.addLast(vbJuego);
             vbJuego.setCursor(Cursor.HAND);
             imgvJuego.setOnMouseEntered(e->{
@@ -156,7 +144,7 @@ public class VentanaExplorarController implements Initializable {
             });
             
             imgvJuego.setOnMouseExited(e->{
-                vbJuego.setStyle("-fx-background-color:#121212;-fx-background-radius:15;");
+                vbJuego.setStyle("-fx-background-color:black;-fx-background-radius:15;");
             });
         }
         return tmp;
@@ -167,7 +155,7 @@ public class VentanaExplorarController implements Initializable {
         VentanaDetalleController.selected=actual;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
         Parent root1 = fxmloader.load();
-        Stage s=(Stage)btnBuscar.getScene().getWindow();
+        Stage s=(Stage)root.getScene().getWindow();
         Scene scene=new Scene(root1,1280,720);
         s.setScene(scene);
         s.show();
@@ -199,6 +187,26 @@ public class VentanaExplorarController implements Initializable {
                 hboxJuegos.getChildren().add(vboxes.getSiguiente(tmp));
                 tmp = vboxes.getSiguiente(tmp);
             }
+        });
+    }
+    public void buscarJuego(){
+        btnBuscar.setOnAction(e->{
+            hboxJuegos.getChildren().clear();
+            vboxes=llenarCatalogo2(buscarJ());
+            if(vboxes.size()<=5){
+                btnAnteriores.setVisible(false);
+                btnSiguientes.setVisible(false);
+                for(int i=0;i<vboxes.size();i++){
+                    hboxJuegos.getChildren().add(vboxes.get(i));
+                }
+            }else{
+                btnAnteriores.setVisible(true);
+                btnSiguientes.setVisible(true);
+                for(int i=0;i<5;i++){
+                    hboxJuegos.getChildren().add(vboxes.get(i));
+                }
+            }
+            lblResultados.setVisible(true);
         });
     }
 }
