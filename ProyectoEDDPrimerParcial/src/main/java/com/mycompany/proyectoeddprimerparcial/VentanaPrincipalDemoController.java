@@ -236,14 +236,15 @@ public class VentanaPrincipalDemoController implements Initializable {
             vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
             tmp.addLast(vbJuego);
-            vbJuego.setCursor(Cursor.HAND);
+            
             imgvJuego.setOnMouseEntered(e -> {
-
+                vbJuego.setCursor(Cursor.HAND);
                 vbJuego.setStyle("-fx-background-color:#343434;-fx-background-radius:15;");
 
             });
 
             imgvJuego.setOnMouseExited(e -> {
+                vbJuego.setCursor(Cursor.DEFAULT);
                 vbJuego.setStyle("-fx-background-color:#121212;-fx-background-radius:15;");
             });
         }
