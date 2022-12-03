@@ -42,15 +42,17 @@ import javafx.scene.layout.FlowPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+
 /**
  * FXML Controller class
  *
  * @author USUARIO
  */
 public class VentanaPrincipalDemoController implements Initializable {
-    private LinkedListDobleCircular<Juego> juegos=App.cargarJuegos();
+
+    private LinkedListDobleCircular<Juego> juegos = App.cargarJuegos();
     private LinkedListDobleCircular<Image> imgsCatalogo = llenarCatalogo();
-    private LinkedListDobleCircular<VBox> vboxes=llenarCatalogo2(juegos);
+    private LinkedListDobleCircular<VBox> vboxes = llenarCatalogo2(juegos);
     private LinkedListDobleCircular<Juego> juegos_destacados = new LinkedListDobleCircular();
     @FXML
     private ScrollPane root;
@@ -64,7 +66,7 @@ public class VentanaPrincipalDemoController implements Initializable {
     private Button btnModoOscuro;
     @FXML
     private ImageView imgvDestacados;
-    @FXML 
+    @FXML
     private HBox hbox_catalogo;
     @FXML
     private HBox hbox_h;
@@ -80,119 +82,120 @@ public class VentanaPrincipalDemoController implements Initializable {
      */
     private TextField barra_nombre;
     private TextField barra_anio;
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
+
         moverDestacados(Thread.currentThread());
         isModoOscuroOn = true;
-        hbox_catalogo.getChildren().addAll(vboxes.get(0),vboxes.get(1),vboxes.get(2),vboxes.get(3),vboxes.get(4));
+        hbox_catalogo.getChildren().addAll(vboxes.get(0), vboxes.get(1), vboxes.get(2), vboxes.get(3), vboxes.get(4));
         hbox_catalogo.setSpacing(25);
         //btnModoOscuro.setOnAction(e->{
-          // cambiarModo();
-       //});
-       
-       barra_nombre=new TextField();
-       barra_nombre.setPromptText("Buscar por nombre");
-       barra_nombre.setFocusTraversable(false);
-       barra_anio=new TextField();
-       barra_anio.setPromptText("Buscar por año");
-       barra_anio.setFocusTraversable(false);
-       hbox_h.getChildren().addAll(barra_nombre,barra_anio);
-       hbox_h.setSpacing(20);
-       moverCatalogo();
-       imgsDestacados=agregarDestacados();
-       imagenDestacada_actual = imgsDestacados.get(0);
-       imgvDestacados.setImage(imgsDestacados.get(0));
-       juego_destacado_actual = juegos_destacados.get(0);
-       
+        // cambiarModo();
+        //});
+
+        barra_nombre = new TextField();
+        barra_nombre.setPromptText("Buscar por nombre");
+        barra_nombre.setFocusTraversable(false);
+        barra_anio = new TextField();
+        barra_anio.setPromptText("Buscar por año");
+        barra_anio.setFocusTraversable(false);
+        hbox_h.getChildren().addAll(barra_nombre, barra_anio);
+        hbox_h.setSpacing(20);
+        moverCatalogo();
+        imgsDestacados = agregarDestacados();
+        imagenDestacada_actual = imgsDestacados.get(0);
+        imgvDestacados.setImage(imgsDestacados.get(0));
+        juego_destacado_actual = juegos_destacados.get(0);
+
     }
-    
-    public LinkedListDobleCircular<Image> llenarCatalogo(){
-        LinkedListDobleCircular<Image> retorno=new LinkedListDobleCircular<>();
-        
-        for(int i=0;i<juegos.size();i++){
-            Image tmp=App.getImage("Images/"+juegos.get(i).getTitulo()+".jpg");
+
+    public LinkedListDobleCircular<Image> llenarCatalogo() {
+        LinkedListDobleCircular<Image> retorno = new LinkedListDobleCircular<>();
+
+        for (int i = 0; i < juegos.size(); i++) {
+            Image tmp = App.getImage("Images/" + juegos.get(i).getTitulo() + ".jpg");
             retorno.addLast(tmp);
         }
-        
+
         return retorno;
-        
+
     }
-    
-    public void moverCatalogo(){
+
+    public void moverCatalogo() {
         moverIzq();
         moverDer();
     }
-    public void moverIzq(){
-        btn_cat_izq.setOnAction(e->{
-		VBox tmp=(VBox)hbox_catalogo.getChildren().get(0);
-		hbox_catalogo.getChildren().clear();
-		for(int i=0;i<5;i++){
-			tmp=vboxes.getAnterior(tmp);
-		}
-                for(int i=0;i<5;i++){
-			hbox_catalogo.getChildren().add(tmp);
-                        tmp=vboxes.getSiguiente(tmp);
-		}
+
+    public void moverIzq() {
+        btn_cat_izq.setOnAction(e -> {
+            VBox tmp = (VBox) hbox_catalogo.getChildren().get(0);
+            hbox_catalogo.getChildren().clear();
+            for (int i = 0; i < 5; i++) {
+                tmp = vboxes.getAnterior(tmp);
+            }
+            for (int i = 0; i < 5; i++) {
+                hbox_catalogo.getChildren().add(tmp);
+                tmp = vboxes.getSiguiente(tmp);
+            }
         });
     }
 
-public void moverDer(){
-        btn_cat_der.setOnAction(e->{
-            VBox tmp=(VBox)hbox_catalogo.getChildren().get(4);
+    public void moverDer() {
+        btn_cat_der.setOnAction(e -> {
+            VBox tmp = (VBox) hbox_catalogo.getChildren().get(4);
             hbox_catalogo.getChildren().clear();
-            for(int i=0;i<5;i++){
-			hbox_catalogo.getChildren().add(vboxes.getSiguiente(tmp));
-			tmp=vboxes.getSiguiente(tmp);
-		}
+            for (int i = 0; i < 5; i++) {
+                hbox_catalogo.getChildren().add(vboxes.getSiguiente(tmp));
+                tmp = vboxes.getSiguiente(tmp);
+            }
         });
     }
-    
-    public LinkedListDobleCircular<Image> agregarDestacados(){
+
+    public LinkedListDobleCircular<Image> agregarDestacados() {
         LinkedListDobleCircular<Image> lista_Destacados = new LinkedListDobleCircular();
-        
-        for(int i=0;i<juegos.size();i++){
-            Image tmp=App.getImage("Images/Destacados/"+juegos.get(i).getTitulo()+".jpg",true);
-            if(tmp!=null){
-            juegos_destacados.addLast(juegos.get(i));
-            lista_Destacados.addLast(tmp);
+
+        for (int i = 0; i < juegos.size(); i++) {
+            Image tmp = App.getImage("Images/Destacados/" + juegos.get(i).getTitulo() + ".jpg", true);
+            if (tmp != null) {
+                juegos_destacados.addLast(juegos.get(i));
+                lista_Destacados.addLast(tmp);
             }
         }
         return lista_Destacados;
-        
+
     }
-    
-    public void moverDestacados(Thread hilo){
+
+    public void moverDestacados(Thread hilo) {
         Thread hilo1 = new Thread(new Runnable() {
             @Override
             public void run() {
-                    while(hilo.isAlive()){
-                        Platform.runLater(()->{
-                        
-                            imagenDestacada_actual = imgsDestacados.getSiguiente(imagenDestacada_actual);
-                            juego_destacado_actual = juegos_destacados.getSiguiente(juego_destacado_actual);
-                            imgvDestacados.setImage(imagenDestacada_actual);
-                            try {
-                                abrirDestacado(juego_destacado_actual);
-                            } catch (IOException ex) {
-                                ex.printStackTrace();
-                            }
-                        });
-                        try{
-                            Thread.sleep(2000);
-                        }catch(InterruptedException ex){
+                while (hilo.isAlive()) {
+                    Platform.runLater(() -> {
+
+                        imagenDestacada_actual = imgsDestacados.getSiguiente(imagenDestacada_actual);
+                        juego_destacado_actual = juegos_destacados.getSiguiente(juego_destacado_actual);
+                        imgvDestacados.setImage(imagenDestacada_actual);
+                        try {
+                            abrirDestacado(juego_destacado_actual);
+                        } catch (IOException ex) {
+                            ex.printStackTrace();
                         }
+                    });
+                    try {
+                        Thread.sleep(2000);
+                    } catch (InterruptedException ex) {
                     }
-                
+                }
+
             }
         });
         hilo1.start();
-        
-        
+
     }
-    
-     private LinkedListDobleCircular<VBox> llenarCatalogo2(LinkedListDobleCircular<Juego> juegosl) {
-        LinkedListDobleCircular<VBox> tmp=new LinkedListDobleCircular<>();
+
+    private LinkedListDobleCircular<VBox> llenarCatalogo2(LinkedListDobleCircular<Juego> juegosl) {
+        LinkedListDobleCircular<VBox> tmp = new LinkedListDobleCircular<>();
         for (int i = 0; i < juegosl.size(); i++) {
             Juego actual = juegosl.get(i);
             VBox vbJuego = new VBox();
@@ -211,86 +214,84 @@ public void moverDer(){
             imgvJuego.setImage(image);
 
             imgvJuego.setOnMouseClicked(e -> {
-                
-                
+
                 try {
                     abrirVentanaJuego(actual);
                 } catch (IOException e1) {
                     System.out.println("Se cayo");
                 }
-                
+
             });
             vbJuego.getChildren().add(imgvJuego);
             Label titulo = new Label(juegos.get(i).getTitulo());
-            titulo.setPadding(new Insets(5,5,5,5));
+            titulo.setPadding(new Insets(5, 5, 5, 5));
             titulo.setTextFill(Color.WHITE);
             vbJuego.getChildren().add(titulo);
             Label precio = new Label(juegos.get(i).getPrecio());
             precio.setTextFill(Color.WHITE);
-            precio.setPadding(new Insets(5,5,5,5));
+            precio.setPadding(new Insets(5, 5, 5, 5));
             vbJuego.getChildren().add(precio);
             vbJuego.setSpacing(5);
             tmp.addLast(vbJuego);
             vbJuego.setCursor(Cursor.HAND);
-            imgvJuego.setOnMouseEntered(e->{
-                
+            imgvJuego.setOnMouseEntered(e -> {
+
                 vbJuego.setStyle("-fx-background-color:#343434;-fx-background-radius:15;");
 
             });
-            
-            imgvJuego.setOnMouseExited(e->{
+
+            imgvJuego.setOnMouseExited(e -> {
                 vbJuego.setStyle("-fx-background-color:#121212;-fx-background-radius:15;");
             });
         }
         return tmp;
     }
-     
-     public void abrirDestacado(Juego j) throws IOException{
-        imgvDestacados.setOnMouseClicked(new EventHandler<MouseEvent>(){
+
+    public void abrirDestacado(Juego j) throws IOException {
+        imgvDestacados.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
-            public void handle(MouseEvent event){
+            public void handle(MouseEvent event) {
                 try {
-                    if(isModoOscuroOn){
-                        VentanaDetalleController.modo="black";
-                        VentanaDetalleController.modocontrario="white";
-                    }else{
-                        VentanaDetalleController.modo="white";
-                        VentanaDetalleController.modocontrario="black";
+                    if (isModoOscuroOn) {
+                        VentanaDetalleController.modo = "black";
+                        VentanaDetalleController.modocontrario = "white";
+                    } else {
+                        VentanaDetalleController.modo = "white";
+                        VentanaDetalleController.modocontrario = "black";
                     }
-                    VentanaDetalleController.usr=App.usr;
-                    VentanaDetalleController.selected=j;
+                    VentanaDetalleController.usr = App.usr;
+                    VentanaDetalleController.selected = j;
                     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
                     Parent root1 = fxmloader.load();
-                    Stage s=(Stage)root.getScene().getWindow();
-                    Scene scene=new Scene(root1,1280,720);
+                    Stage s = (Stage) root.getScene().getWindow();
+                    Scene scene = new Scene(root1, 1280, 720);
                     s.setScene(scene);
                     s.show();
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
             }
-        
+
         });
     }
-     
-     public void abrirVentanaJuego(Juego j) throws IOException{
-        if(isModoOscuroOn){
-        VentanaDetalleController.modo="black";
-        VentanaDetalleController.modocontrario="white";
-        }else{
-        VentanaDetalleController.modo="white";
-        VentanaDetalleController.modocontrario="black";
+
+    public void abrirVentanaJuego(Juego j) throws IOException {
+        if (isModoOscuroOn) {
+            VentanaDetalleController.modo = "black";
+            VentanaDetalleController.modocontrario = "white";
+        } else {
+            VentanaDetalleController.modo = "white";
+            VentanaDetalleController.modocontrario = "black";
         }
-        VentanaDetalleController.usr=App.usr;
-        VentanaDetalleController.selected=j;
+        VentanaDetalleController.usr = App.usr;
+        VentanaDetalleController.selected = j;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
         Parent root1 = fxmloader.load();
-        Stage s=(Stage)root.getScene().getWindow();
-        Scene scene=new Scene(root1,1280,720);
+        Stage s = (Stage) root.getScene().getWindow();
+        Scene scene = new Scene(root1, 1280, 720);
         s.setScene(scene);
         s.show();
-        
+
     }
-     
-     
+
 }

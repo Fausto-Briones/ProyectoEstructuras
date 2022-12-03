@@ -39,6 +39,12 @@ public class Juego {
         resenias=cargarResenias(id);
     }
 
+    public Juego(String titulo, String anio) {
+        this.titulo = titulo;
+        this.anio = anio;
+    }
+    
+
     public String getId() {
         return id;
     }
