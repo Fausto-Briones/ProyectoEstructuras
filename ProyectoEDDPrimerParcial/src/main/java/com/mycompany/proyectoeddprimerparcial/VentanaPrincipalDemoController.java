@@ -100,10 +100,10 @@ public class VentanaPrincipalDemoController implements Initializable {
        hbox_h.getChildren().addAll(barra_nombre,barra_anio);
        hbox_h.setSpacing(20);
        moverCatalogo();
-       imgsDestacados=agregarDestacados();
-       imagenDestacada_actual = imgsDestacados.get(0);
-       imgvDestacados.setImage(imgsDestacados.get(0));
-       juego_destacado_actual = juegos_destacados.get(0);
+//       imgsDestacados=agregarDestacados();
+//       imagenDestacada_actual = imgsDestacados.get(0);
+//       imgvDestacados.setImage(imgsDestacados.get(0));
+//       juego_destacado_actual = juegos_destacados.get(0);
        
     }
     
@@ -128,8 +128,11 @@ public class VentanaPrincipalDemoController implements Initializable {
 		VBox tmp=(VBox)hbox_catalogo.getChildren().get(0);
 		hbox_catalogo.getChildren().clear();
 		for(int i=0;i<5;i++){
-			hbox_catalogo.getChildren().add(vboxes.getAnterior(tmp));
 			tmp=vboxes.getAnterior(tmp);
+		}
+                for(int i=0;i<5;i++){
+			hbox_catalogo.getChildren().add(tmp);
+                        tmp=vboxes.getSiguiente(tmp);
 		}
         });
     }
