@@ -10,9 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane fx:id="root" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyectoeddprimerparcial.VentanaExplorarController">
+<ScrollPane fx:id="root" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyectoeddprimerparcial.VentanaExplorarController">
    <content>
-      <VBox prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #121212;">
+      <VBox fx:id="vboxPrincipal" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #121212;">
          <children>
             <HBox fx:id="buttonHbox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1280.0">
                <children>
