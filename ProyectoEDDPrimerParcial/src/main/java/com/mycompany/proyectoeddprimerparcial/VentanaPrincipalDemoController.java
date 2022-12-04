@@ -47,7 +47,8 @@ import javafx.stage.Stage;
  * @author USUARIO
  */
 public class VentanaPrincipalDemoController implements Initializable {
-
+    public static String modo="#121212";
+    public static String modocontrario="white";
     private LinkedListDobleCircular<Juego> juegos = App.cargarJuegos();
     private LinkedListDobleCircular<Image> imgsCatalogo = llenarCatalogo();
     private LinkedListDobleCircular<VBox> vboxes = llenarCatalogo2(juegos);
@@ -87,11 +88,12 @@ public class VentanaPrincipalDemoController implements Initializable {
     private Button botonCatalogo;
     @FXML
     private Button botonExplorar;
+    @FXML
+    private HBox hboxModo;
     
 //    @FXML
 //    private HBox hbox_h;
     
-    public static boolean isModoOscuroOn=true;
     private TextField barra_busqueda;
     Image img_juego_actual;
     Juego juego_actual;
@@ -104,8 +106,7 @@ public class VentanaPrincipalDemoController implements Initializable {
     private TextField barra_nombre;
     private TextField barra_anio;
     
-    public static String modo;
-    public static String modocontrario;
+   
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //System.out.println(isModoOscuroOn);
@@ -139,6 +140,7 @@ public class VentanaPrincipalDemoController implements Initializable {
         imagenDestacada_actual = imgsDestacados.get(0);
         imgvDestacados.setImage(imgsDestacados.get(0));
         juego_destacado_actual = juegos_destacados.get(0);
+        cambiarModo(modo,modocontrario);
 
     }
 
@@ -304,14 +306,10 @@ public class VentanaPrincipalDemoController implements Initializable {
         imgvDestacados.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
+                
                 try {
-                    if (isModoOscuroOn) {
-                        VentanaDetalleController.modo = "#121212";
-                        VentanaDetalleController.modocontrario = "white";
-                    } else {
-                        VentanaDetalleController.modo = "white";
-                        VentanaDetalleController.modocontrario = "#121212";
-                    }
+                    VentanaDetalleController.modo = modo;
+                    VentanaDetalleController.modocontrario = modocontrario;
                     VentanaDetalleController.usr = App.usr;
                     VentanaDetalleController.selected = j;
                     App.pilaVentanas.push("VentanaPrincipalDemo");
@@ -324,21 +322,15 @@ public class VentanaPrincipalDemoController implements Initializable {
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
+                
             }
 
         });
     }
 
     public void abrirVentanaJuego(Juego j) throws IOException {
-        if (isModoOscuroOn) {
-           
-            VentanaDetalleController.modo = "#121212";
-            VentanaDetalleController.modocontrario = "white";
-        } else {
-            VentanaDetalleController.modo = "white";
-            VentanaDetalleController.modocontrario = "#121212";
-            
-        }
+        VentanaDetalleController.modo = modo;
+        VentanaDetalleController.modocontrario = modocontrario;
         VentanaDetalleController.usr = App.usr;
         VentanaDetalleController.selected = j;
         App.pilaVentanas.push("VentanaPrincipalDemo");
@@ -354,7 +346,6 @@ public class VentanaPrincipalDemoController implements Initializable {
     public void setLight(){ 
     modo = "white";
     modocontrario="#121212";
-    isModoOscuroOn=false;
     cambiarModo(modo,modocontrario);
     //reseniasIniciales();
     
@@ -379,6 +370,9 @@ public class VentanaPrincipalDemoController implements Initializable {
         textUsuario.setStyle("-fx-fill:"+modocontrario);
         botonCatalogo.setStyle("-fx-background-color:"+modo);
         botonExplorar.setStyle("-fx-background-color:"+modo);
+        botonSalir.setStyle("-fx-background-color:red;-fx-background-radius:24;-fx-border-radius:20;-fx-border-width:3;-fx-border-color:"+modocontrario);
+        textUsuario.setStyle("-fx-fill:"+modocontrario);
+        hboxModo.setStyle("-fx-border-color:"+modocontrario+";-fx-border-width:3;-fx-border-radius:5");
         for(int i=0;i<vboxes.size();i++){
             VBox actual = (VBox)vboxes.get(i);
             actual.setStyle("-fx-background-color:" + modo);
@@ -425,31 +419,29 @@ public class VentanaPrincipalDemoController implements Initializable {
     }
     @FXML
     public void cargarCatalogo(ActionEvent e) throws IOException{
+    VentanaPrincipalDemoController.modo = modo;
+    VentanaPrincipalDemoController.modocontrario = modocontrario;    
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaPrincipalDemo.fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)root.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
     App.pilaVentanas.clear();
-    VentanaPrincipalDemoController.isModoOscuroOn = isModoOscuroOn;
+    
     s.show();
     
     }
     @FXML
     public void cargarExplorar(ActionEvent e) throws IOException{
+    VentanaExplorarController.modo = modo;
+    VentanaExplorarController.modocontrario = modocontrario;    
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaExplorar.fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)root.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
     App.pilaVentanas.clear();
-    if(isModoOscuroOn){
-    VentanaExplorarController.modo="#121212";
-    VentanaExplorarController.modocontrario="white";
-    }else{
-    VentanaExplorarController.modo="white";
-    VentanaExplorarController.modocontrario="#121212";
-    }
+    
     s.show();
     
     }
@@ -497,13 +489,8 @@ public class VentanaPrincipalDemoController implements Initializable {
     }
     
     public void abrirVentanaUsuario(Text textusuario)throws IOException{
-    if (isModoOscuroOn) {
-            VentanaUsuarioController.modo = "#121212";
-            VentanaUsuarioController.modocontrario = "white";
-        } else {
-            VentanaUsuarioController.modo = "white";
-            VentanaUsuarioController.modocontrario = "#121212";
-    }
+    VentanaUsuarioController.modo = modo;
+    VentanaUsuarioController.modocontrario = modocontrario;
     VentanaUsuarioController.setearUsuario(textusuario);
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaUsuario.fxml"));
     Parent root1 = fxmloader.load();

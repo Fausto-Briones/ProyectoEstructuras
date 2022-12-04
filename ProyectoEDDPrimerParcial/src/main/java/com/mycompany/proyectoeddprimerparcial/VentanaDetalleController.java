@@ -429,7 +429,8 @@ public class VentanaDetalleController implements Initializable{
     public void regresarPrincipal()throws IOException{
     VentanaExplorarController.modo=modo;
     VentanaExplorarController.modocontrario=modocontrario;
-    VentanaPrincipalDemoController.isModoOscuroOn = !modo.equals("white");    
+    VentanaPrincipalDemoController.modo = modo;
+    VentanaPrincipalDemoController.modocontrario = modocontrario;    
         
         
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource(App.pilaVentanas.pop()+".fxml"));
@@ -639,30 +640,27 @@ public class VentanaDetalleController implements Initializable{
     
     @FXML
     public void cargarCatalogo(ActionEvent e) throws IOException{
+    VentanaPrincipalDemoController.modo = modo;
+    VentanaPrincipalDemoController.modocontrario = modocontrario;
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaPrincipalDemo.fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)mainScroll.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
     App.pilaVentanas.clear();
-    if(modo.equals("white")){
-    VentanaPrincipalDemoController.isModoOscuroOn=false;
-    }else{
-    VentanaPrincipalDemoController.isModoOscuroOn=true;
-    }
     s.show();
     
     }
     @FXML
     public void cargarExplorar(ActionEvent e) throws IOException{
+    VentanaExplorarController.modo=modo;
+    VentanaExplorarController.modocontrario=modocontrario;    
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaExplorar.fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)mainScroll.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
     App.pilaVentanas.clear();
-    VentanaExplorarController.modo=modo;
-    VentanaExplorarController.modocontrario=modocontrario;
     s.show();
     
     }

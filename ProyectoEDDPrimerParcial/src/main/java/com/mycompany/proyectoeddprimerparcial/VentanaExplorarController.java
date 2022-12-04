@@ -101,6 +101,9 @@ public class VentanaExplorarController implements Initializable {
         setearSalir();
         cargarImagenesModos();
         backButton.setVisible(false);
+        //System.out.println(modo+modocontrario);
+        cambiarModo(modo,modocontrario);
+        cambiarModoBarra(modo,modocontrario);
     }
 
     public LDEC<Juego> buscarJ() {
@@ -201,11 +204,14 @@ public class VentanaExplorarController implements Initializable {
         VentanaUsuarioController.modocontrario = modocontrario;
         VentanaDetalleController.usr = App.usr;
         VentanaDetalleController.selected = actual;
+        VentanaDetalleController.modo=modo;
+        VentanaDetalleController.modocontrario=modocontrario;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
         Parent root1 = fxmloader.load();
         Stage s = (Stage) root.getScene().getWindow();
         Scene scene = new Scene(root1, 1280, 720);
         s.setScene(scene);
+        App.pilaVentanas.push("VentanaExplorar");
         s.show();
     }
 
@@ -310,27 +316,28 @@ public class VentanaExplorarController implements Initializable {
 
     @FXML
     public void cargarCatalogo(ActionEvent e) throws IOException {
+        VentanaPrincipalDemoController.modo=modo;
+        VentanaPrincipalDemoController.modocontrario=modocontrario;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaPrincipalDemo.fxml"));
         Parent root1 = fxmloader.load();
         Stage s = (Stage) root.getScene().getWindow();
         Scene scene = new Scene(root1, 1280, 720);
         s.setScene(scene);
         App.pilaVentanas.clear();
-        VentanaPrincipalDemoController.isModoOscuroOn = !modo.equals("white");
         s.show();
 
     }
 
     @FXML
     public void cargarExplorar(ActionEvent e) throws IOException {
+        VentanaExplorarController.modo = modo;
+        VentanaExplorarController.modocontrario = modocontrario;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaExplorar.fxml"));
         Parent root1 = fxmloader.load();
         Stage s = (Stage) root.getScene().getWindow();
         Scene scene = new Scene(root1, 1280, 720);
         s.setScene(scene);
         App.pilaVentanas.clear();
-        VentanaExplorarController.modo = modo;
-        VentanaExplorarController.modocontrario = modocontrario;
         s.show();
 
     }
@@ -425,6 +432,7 @@ public class VentanaExplorarController implements Initializable {
                 }
             }
         }
+        
     }
 
     public void cambiarModoBarra(String modo, String modocontrario) {
