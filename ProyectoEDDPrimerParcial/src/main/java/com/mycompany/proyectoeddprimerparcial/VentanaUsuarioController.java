@@ -113,6 +113,10 @@ public class VentanaUsuarioController implements Initializable {
     public void regresarDetalle()throws IOException{
     VentanaDetalleController.modo=modo;
     VentanaDetalleController.modocontrario=modocontrario;
+    VentanaExplorarController.modo=modo;
+    VentanaExplorarController.modocontrario=modocontrario;
+    VentanaPrincipalDemoController.isModoOscuroOn = !modo.equals("white");
+    
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource(App.pilaVentanas.pop()+".fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)vboxMain.getScene().getWindow();

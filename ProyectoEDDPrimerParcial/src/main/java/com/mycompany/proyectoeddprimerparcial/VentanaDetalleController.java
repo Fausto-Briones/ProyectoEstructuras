@@ -425,6 +425,11 @@ public class VentanaDetalleController implements Initializable{
     }
     @FXML
     public void regresarPrincipal()throws IOException{
+    VentanaExplorarController.modo=modo;
+    VentanaExplorarController.modocontrario=modocontrario;
+    VentanaPrincipalDemoController.isModoOscuroOn = !modo.equals("white");    
+        
+        
     FXMLLoader fxmloader = new FXMLLoader(App.class.getResource(App.pilaVentanas.pop()+".fxml"));
     Parent root1 = fxmloader.load();
     Stage s=(Stage)mainScroll.getScene().getWindow();
