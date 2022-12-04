@@ -55,6 +55,13 @@ public class VentanaPrincipalDemoController implements Initializable {
     @FXML
     private ScrollPane root;
     @FXML
+    private VBox v_base;
+    @FXML
+    private Label lbl_destacados;
+    @FXML
+    private Label lblMessage;
+    
+    @FXML
     private Label lbl_cat;
     @FXML
     private Button botonSalir;
@@ -96,7 +103,9 @@ public class VentanaPrincipalDemoController implements Initializable {
      */
     private TextField barra_nombre;
     private TextField barra_anio;
-
+    
+    public static String modo;
+    public static String modocontrario;
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         //System.out.println(isModoOscuroOn);
@@ -272,12 +281,20 @@ public class VentanaPrincipalDemoController implements Initializable {
             imgvJuego.setOnMouseEntered(e -> {
                 vbJuego.setCursor(Cursor.HAND);
                 vbJuego.setStyle("-fx-background-color:#343434;-fx-background-radius:15;");
+                titulo.setTextFill(Color.web("white"));
+                precio.setTextFill(Color.web("white"));
 
             });
 
             imgvJuego.setOnMouseExited(e -> {
                 vbJuego.setCursor(Cursor.DEFAULT);
-                vbJuego.setStyle("-fx-background-color:#121212;-fx-background-radius:15;");
+                vbJuego.setStyle("-fx-background-color:" + modo + ";-fx-background-radius:15;");
+               //Yo lo reviso
+                try{
+                titulo.setTextFill(Color.web(modocontrario));
+                precio.setTextFill(Color.web(modocontrario));
+                }catch(NullPointerException ex){
+                }
             });
         }
         return tmp;
@@ -334,17 +351,47 @@ public class VentanaPrincipalDemoController implements Initializable {
         s.show();
 
     }
-    public void setLight(){    
+    public void setLight(){ 
+    modo = "white";
+    modocontrario="#121212";
     isModoOscuroOn=false;
-    //cambiarModo(isModoOscuroOn);
+    cambiarModo(modo,modocontrario);
     //reseniasIniciales();
     
             
     }
     public void setNight(){  
-    isModoOscuroOn=true;
-    //cambiarModo(isModoOscuroOn);
+    //isModoOscuroOn=true;
+    modo = "#121212";
+    modocontrario = "white";
+    cambiarModo(modo,modocontrario);
     //reseniasIniciales();
+    }
+    
+    private void cambiarModo(String modo, String modocontrario){
+        v_base.setStyle("-fx-background-color:"+modo);
+        lbl_destacados.setTextFill(Color.web(modocontrario));
+        lblMessage.setTextFill(Color.web(modocontrario));
+        lbl_cat.setTextFill(Color.web(modocontrario));
+        botonCatalogo.setTextFill(Color.web(modocontrario));
+        botonExplorar.setTextFill(Color.web(modocontrario));
+        backButton.setTextFill(Color.web(modocontrario));
+        textUsuario.setStyle("-fx-fill:"+modocontrario);
+        botonCatalogo.setStyle("-fx-background-color:"+modo);
+        botonExplorar.setStyle("-fx-background-color:"+modo);
+        for(int i=0;i<vboxes.size();i++){
+            VBox actual = (VBox)vboxes.get(i);
+            actual.setStyle("-fx-background-color:" + modo);
+            if (!actual.getChildren().isEmpty()) {
+                    Label titulo = (Label) actual.getChildren().get(1);
+                    titulo.setTextFill(Color.web(modocontrario));
+                    Label precio = (Label) actual.getChildren().get(2);
+                    precio.setTextFill(Color.web(modocontrario));
+            }        
+        
+        }
+        
+    
     }
     
     public void setearSalir(){
@@ -481,6 +528,7 @@ public class VentanaPrincipalDemoController implements Initializable {
     }
     });
     }
+    
     
     
 }
