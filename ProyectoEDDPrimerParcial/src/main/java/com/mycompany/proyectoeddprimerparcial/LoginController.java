@@ -121,7 +121,8 @@ public class LoginController implements Initializable {
     private void abrirVistaPrincipal(){
         btnRegistrar.setDisable(true);
         btnIngresar.setDisable(true);
-        Platform.runLater(()->{
+        
+         Platform.runLater(()->{
             try {
                 Thread.sleep(300);
                 App.abrirVentana("VentanaPrincipalDemo");
@@ -131,6 +132,7 @@ public class LoginController implements Initializable {
                
             }
         });
+            
         
     }
 }

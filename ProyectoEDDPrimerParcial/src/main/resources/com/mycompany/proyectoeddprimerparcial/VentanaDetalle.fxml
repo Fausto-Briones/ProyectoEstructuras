@@ -18,7 +18,7 @@
          <children>
             <HBox fx:id="buttonHbox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1280.0">
                <children>
-                  <Button fx:id="backButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#regresarPrincipal" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: black;" text="&lt;" textFill="WHITE">
+                  <Button fx:id="backButton" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#regresarPrincipal" prefHeight="50.0" prefWidth="50.0" style="-fx-background-color: #121212;" text="&lt;" textFill="WHITE">
                      <HBox.margin>
                         <Insets left="5.0" />
                      </HBox.margin>
@@ -28,7 +28,7 @@
                   </Button>
                   <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
                      <children>
-                        <Button fx:id="botonCatalogo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-color: black;" text="Catálogo" textFill="WHITE">
+                        <Button fx:id="botonCatalogo" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cargarCatalogo" style="-fx-background-color: #121212;" text="Catálogo" textFill="WHITE">
                            <HBox.margin>
                               <Insets />
                            </HBox.margin>
@@ -36,7 +36,7 @@
                               <Font size="24.0" />
                            </font>
                         </Button>
-                        <Button fx:id="botonExplorar" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" style="-fx-background-color: black;" text="Explorar" textFill="WHITE">
+                        <Button fx:id="botonExplorar" maxWidth="-Infinity" minWidth="-Infinity" mnemonicParsing="false" onAction="#cargarExplorar" style="-fx-background-color: #121212;" text="Explorar" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>

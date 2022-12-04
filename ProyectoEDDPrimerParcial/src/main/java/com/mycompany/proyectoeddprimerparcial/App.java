@@ -34,7 +34,7 @@ public class App extends Application {
 
     @Override
     public void start(Stage stage) throws IOException {
-        scene = new Scene(loadFXML("VentanaExplorar"), 1280, 720);
+        scene = new Scene(loadFXML("Login"), 1280, 720);
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Game Store");
@@ -128,7 +128,7 @@ public class App extends Application {
             s.setTitle("Game Store");
             s.show();
         } catch (IOException ex) {
-
+            ex.printStackTrace();
         }
     }
 

@@ -10,8 +10,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.application.Platform;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,18 +24,21 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.WritableImage;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -46,11 +51,13 @@ public class VentanaPrincipalDemoController implements Initializable {
     private LinkedListDobleCircular<Juego> juegos = App.cargarJuegos();
     private LinkedListDobleCircular<Image> imgsCatalogo = llenarCatalogo();
     private LinkedListDobleCircular<VBox> vboxes = llenarCatalogo2(juegos);
-    private LinkedListDobleCircular<Juego> juegos_destacados = new LinkedListDobleCircular();
+    private LinkedListDobleCircular<Juego> juegos_destacados = new LinkedListDobleCircular<>();
     @FXML
     private ScrollPane root;
     @FXML
     private Label lbl_cat;
+    @FXML
+    private Button botonSalir;
     @FXML
     private Button btn_cat_izq;
     @FXML
@@ -62,8 +69,17 @@ public class VentanaPrincipalDemoController implements Initializable {
     @FXML
     private HBox hbox_catalogo;
     @FXML
-    private HBox hbox_h;
-    private boolean isModoOscuroOn;
+    private Button botonNoche;
+    @FXML
+    private Button botonLuz;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Text textUsuario;
+//    @FXML
+//    private HBox hbox_h;
+    
+    public static boolean isModoOscuroOn;
     private TextField barra_busqueda;
     Image img_juego_actual;
     Juego juego_actual;
@@ -78,28 +94,31 @@ public class VentanaPrincipalDemoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        textUsuario.setText(App.usr.getId());
+        eventsUsuario(textUsuario);
+        backButton.setVisible(false);
+        imgsDestacados = agregarDestacados();
         moverDestacados(Thread.currentThread());
+        cargarImagenesModos();
         isModoOscuroOn = true;
         hbox_catalogo.getChildren().addAll(vboxes.get(0), vboxes.get(1), vboxes.get(2), vboxes.get(3), vboxes.get(4));
         hbox_catalogo.setSpacing(25);
-        btnModoOscuro.setOnAction(e -> {
-            // cambiarModo();
-            Stage s = (Stage) root.getScene().getWindow();
-            s.close();
-            App.abrirVentana("VentanaExplorar");
-        });
-
-        barra_nombre = new TextField();
-        barra_nombre.setPromptText("Buscar por nombre");
-        barra_nombre.setFocusTraversable(false);
-        barra_anio = new TextField();
-        barra_anio.setPromptText("Buscar por año");
-        barra_anio.setFocusTraversable(false);
-        hbox_h.getChildren().addAll(barra_nombre, barra_anio);
-        hbox_h.setSpacing(20);
+//        btnModoOscuro.setOnAction(e -> {
+//            // cambiarModo();
+//            Stage s = (Stage) root.getScene().getWindow();
+//            s.close();
+//            App.abrirVentana("VentanaExplorar");
+//        });
+        setearSalir();
+//        barra_nombre = new TextField();
+//        barra_nombre.setPromptText("Buscar por nombre");
+//        barra_nombre.setFocusTraversable(false);
+//        barra_anio = new TextField();
+//        barra_anio.setPromptText("Buscar por año");
+//        barra_anio.setFocusTraversable(false);
+//        hbox_h.getChildren().addAll(barra_nombre, barra_anio);
+//        hbox_h.setSpacing(20);
         moverCatalogo();
-        imgsDestacados = agregarDestacados();
         imagenDestacada_actual = imgsDestacados.get(0);
         imgvDestacados.setImage(imgsDestacados.get(0));
         juego_destacado_actual = juegos_destacados.get(0);
@@ -158,6 +177,7 @@ public class VentanaPrincipalDemoController implements Initializable {
         parameters.setFill(Color.TRANSPARENT);
 
         for (int i = 0; i < juegos.size(); i++) {
+            //System.out.println("Anyamemby");
             Image tmp = App.getImage("Images/Destacados/" + juegos.get(i).getTitulo() + ".jpg", true);
             if (tmp != null) {
                 imgv.setImage(tmp);
@@ -189,6 +209,7 @@ public class VentanaPrincipalDemoController implements Initializable {
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
+                        System.out.println("Ayudaaa");
                     }
                 }
 
@@ -260,11 +281,11 @@ public class VentanaPrincipalDemoController implements Initializable {
             public void handle(MouseEvent event) {
                 try {
                     if (isModoOscuroOn) {
-                        VentanaDetalleController.modo = "black";
+                        VentanaDetalleController.modo = "#121212";
                         VentanaDetalleController.modocontrario = "white";
                     } else {
                         VentanaDetalleController.modo = "white";
-                        VentanaDetalleController.modocontrario = "black";
+                        VentanaDetalleController.modocontrario = "#121212";
                     }
                     VentanaDetalleController.usr = App.usr;
                     VentanaDetalleController.selected = j;
@@ -285,11 +306,11 @@ public class VentanaPrincipalDemoController implements Initializable {
 
     public void abrirVentanaJuego(Juego j) throws IOException {
         if (isModoOscuroOn) {
-            VentanaDetalleController.modo = "black";
+            VentanaDetalleController.modo = "#121212";
             VentanaDetalleController.modocontrario = "white";
         } else {
             VentanaDetalleController.modo = "white";
-            VentanaDetalleController.modocontrario = "black";
+            VentanaDetalleController.modocontrario = "#121212";
         }
         VentanaDetalleController.usr = App.usr;
         VentanaDetalleController.selected = j;
@@ -302,5 +323,140 @@ public class VentanaPrincipalDemoController implements Initializable {
         s.show();
 
     }
-
+    public void setLight(){    
+    isModoOscuroOn=false;
+    //cambiarModo(isModoOscuroOn);
+    //reseniasIniciales();
+    
+            
+    }
+    public void setNight(){  
+    isModoOscuroOn=true;
+    //cambiarModo(isModoOscuroOn);
+    //reseniasIniciales();
+    }
+    
+    public void setearSalir(){
+    try(FileInputStream input=new FileInputStream(App.pathSS+"door5.png")){
+        Image img= new Image(input,35,35,false,true);
+        ImageView imgv=new ImageView(img);
+        botonSalir.setGraphic(imgv);
+        }   catch (IOException ex) {
+                ex.printStackTrace();
+            }
+    
+    }
+    @FXML
+    public void desloggear(ActionEvent e) throws IOException{
+    Alert conf_desloggear = new Alert(Alert.AlertType.CONFIRMATION);
+        conf_desloggear.setHeaderText(null);
+        conf_desloggear.setContentText("¿Está seguro de que desea cerrar sesion?");
+        Optional<ButtonType> confirmacion = conf_desloggear.showAndWait();
+    if (confirmacion.get() == ButtonType.OK) {
+    App.serializarUsuario(App.usr);
+    App.usr=null;
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Login.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)root.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    //App.pilaVentanas.push("VentanaDetalle");
+    s.show();
+    }
+    }
+    @FXML
+    public void cargarCatalogo(ActionEvent e) throws IOException{
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaPrincipalDemo.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)root.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    if(isModoOscuroOn){
+    VentanaPrincipalDemoController.isModoOscuroOn=true;
+    }else{
+    VentanaPrincipalDemoController.isModoOscuroOn=false;
+    }
+    s.show();
+    
+    }
+    @FXML
+    public void cargarExplorar(ActionEvent e) throws IOException{
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaExplorar.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)root.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    if(isModoOscuroOn){
+    VentanaExplorarController.modo="#121212";
+    VentanaExplorarController.modocontrario="white";
+    }else{
+    VentanaExplorarController.modo="white";
+    VentanaExplorarController.modocontrario="#121212";
+    }
+    s.show();
+    
+    }
+    public void cargarImagenesModos(){
+    try(FileInputStream input=new FileInputStream(App.pathSS+"darkmode.png");FileInputStream input2=new FileInputStream(App.pathSS+"lightmode.png");){
+        Image imgnoche = new Image(input,35,35,false,true);
+        ImageView viewnoche = new ImageView(imgnoche);
+        viewnoche.setFitHeight(35);
+        viewnoche.setPreserveRatio(true);
+        botonNoche.setGraphic(viewnoche);
+        Image imgluz = new Image(input2,35,35,false,true);
+        ImageView viewluz = new ImageView(imgluz);
+        viewnoche.setFitHeight(35);
+        viewnoche.setPreserveRatio(true);
+        botonLuz.setGraphic(viewluz);
+        }   catch (IOException ex) {
+                ex.printStackTrace();
+            }
+    
+    }
+    public void eventsUsuario(Text Textusuario){
+    Textusuario.setFocusTraversable(true);
+    Textusuario.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    Textusuario.setUnderline(true);
+    }
+    });
+    Textusuario.setOnMouseExited(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    Textusuario.setUnderline(false);
+    }
+    });
+    Textusuario.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+        try {
+            abrirVentanaUsuario(Textusuario);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    });
+    }
+    
+    public void abrirVentanaUsuario(Text textusuario)throws IOException{
+    if (isModoOscuroOn) {
+            VentanaUsuarioController.modo = "#121212";
+            VentanaUsuarioController.modocontrario = "white";
+        } else {
+            VentanaUsuarioController.modo = "white";
+            VentanaUsuarioController.modocontrario = "#121212";
+    }
+    VentanaUsuarioController.setearUsuario(textusuario);
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaUsuario.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)textusuario.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.push("VentanaPrincipalDemo");
+    s.show();
+    }
 }

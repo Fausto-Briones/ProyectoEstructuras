@@ -13,8 +13,12 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import Modelo.*;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Comparator;
+import java.util.Optional;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -22,13 +26,17 @@ import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.SnapshotParameters;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 
 /**
@@ -52,7 +60,20 @@ public class VentanaExplorarController implements Initializable {
     @FXML
     private Button btnSiguientes;
     @FXML
+    private Button botonSalir;
+    @FXML
+    private Button backButton;
+    @FXML
+    private Button botonLuz;
+    @FXML
+    private Button botonNoche;
+    @FXML
+    private Text textUsuario;
+    @FXML
     private ScrollPane root;
+    
+    public static String modo;
+    public static String modocontrario;
     private LinkedListDobleCircular<Juego> juegos=App.cargarJuegos();
     private static LinkedListDobleCircular<VBox> vboxes;
     
@@ -62,8 +83,13 @@ public class VentanaExplorarController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        textUsuario.setText(App.usr.getId());
+        eventsUsuario(textUsuario);
         buscarJuego();
         mover();
+        setearSalir();
+        cargarImagenesModos();
+        backButton.setVisible(false);
     }    
     public LDEC<Juego> buscarJ() {
         LDEC<Juego> tmp=new LDEC<>();
@@ -214,4 +240,137 @@ public class VentanaExplorarController implements Initializable {
             lblResultados.setVisible(true);
         });
     }
+    
+    public void setLight(){    
+    modo="white";
+    modocontrario="#121212";
+    //cambiarModo(modo,modocontrario);
+    //reseniasIniciales();
+    
+            
+    }
+    public void setNight(){  
+    modo="#121212";
+    modocontrario="white";
+    //cambiarModo(modo,modocontrario);
+    //reseniasIniciales();
+    }
+    
+    public void setearSalir(){
+    try(FileInputStream input=new FileInputStream(App.pathSS+"door5.png")){
+        Image img= new Image(input,35,35,false,true);
+        ImageView imgv=new ImageView(img);
+        botonSalir.setGraphic(imgv);
+        }   catch (IOException ex) {
+                ex.printStackTrace();
+            }
+    
+    }
+    @FXML
+    public void desloggear(ActionEvent e) throws IOException{
+    Alert conf_desloggear = new Alert(Alert.AlertType.CONFIRMATION);
+        conf_desloggear.setHeaderText(null);
+        conf_desloggear.setContentText("¿Está seguro de que desea cerrar sesion?");
+        Optional<ButtonType> confirmacion = conf_desloggear.showAndWait();
+    if (confirmacion.get() == ButtonType.OK) {
+    App.serializarUsuario(App.usr);
+    App.usr=null;
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("Login.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)root.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    //App.pilaVentanas.push("VentanaDetalle");
+    s.show();
+    }
+    }
+    @FXML
+    public void cargarCatalogo(ActionEvent e) throws IOException{
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaPrincipalDemo.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)root.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    if(modo.equals("white")){
+    VentanaPrincipalDemoController.isModoOscuroOn=false;
+    }else{
+    VentanaPrincipalDemoController.isModoOscuroOn=true;
+    }
+    s.show();
+    
+    }
+    @FXML
+    public void cargarExplorar(ActionEvent e) throws IOException{
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaExplorar.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)root.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    VentanaExplorarController.modo=modo;
+    VentanaExplorarController.modocontrario=modocontrario;
+    s.show();
+    
+    }
+    public void cargarImagenesModos(){
+    try(FileInputStream input=new FileInputStream(App.pathSS+"darkmode.png");FileInputStream input2=new FileInputStream(App.pathSS+"lightmode.png");){
+        Image imgnoche = new Image(input,35,35,false,true);
+        ImageView viewnoche = new ImageView(imgnoche);
+        viewnoche.setFitHeight(35);
+        viewnoche.setPreserveRatio(true);
+        botonNoche.setGraphic(viewnoche);
+        Image imgluz = new Image(input2,35,35,false,true);
+        ImageView viewluz = new ImageView(imgluz);
+        viewnoche.setFitHeight(35);
+        viewnoche.setPreserveRatio(true);
+        botonLuz.setGraphic(viewluz);
+        }   catch (IOException ex) {
+                ex.printStackTrace();
+            }
+    
+    }
+    public void eventsUsuario(Text Textusuario){
+    Textusuario.setFocusTraversable(true);
+    Textusuario.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    Textusuario.setUnderline(true);
+    }
+    });
+    Textusuario.setOnMouseExited(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    Textusuario.setUnderline(false);
+    }
+    });
+    Textusuario.setOnMouseClicked(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+        try {
+            abrirVentanaUsuario(Textusuario);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+    });
+    }
+    
+    public void abrirVentanaUsuario(Text textusuario)throws IOException{
+    
+    VentanaUsuarioController.modo = modo;
+    VentanaUsuarioController.modocontrario = modocontrario;
+   
+    VentanaUsuarioController.setearUsuario(textusuario);
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaUsuario.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)textusuario.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.push("VentanaExplorar");
+    s.show();
+    }
+    
+    
 }

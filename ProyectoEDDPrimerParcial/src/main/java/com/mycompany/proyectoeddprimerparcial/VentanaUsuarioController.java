@@ -105,7 +105,7 @@ public class VentanaUsuarioController implements Initializable {
     Stage s=(Stage)flowWish.getScene().getWindow();
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
-    //App.pilaVentanas.push("VentanaDetalle");
+    App.pilaVentanas.clear();
     s.show();
     }
     }
@@ -271,7 +271,35 @@ public class VentanaUsuarioController implements Initializable {
 //            });
         }
     }
+    @FXML
+    public void cargarCatalogo(ActionEvent e) throws IOException{
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaPrincipalDemo.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)vboxMain.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    if(modo.equals("white")){
+    VentanaPrincipalDemoController.isModoOscuroOn=false;
+    }else{
+    VentanaPrincipalDemoController.isModoOscuroOn=true;
+    }
+    s.show();
     
+    }
+    @FXML
+    public void cargarExplorar(ActionEvent e) throws IOException{
+    FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaExplorar.fxml"));
+    Parent root1 = fxmloader.load();
+    Stage s=(Stage)vboxMain.getScene().getWindow();
+    Scene scene=new Scene(root1,1280,720);
+    s.setScene(scene);
+    App.pilaVentanas.clear();
+    VentanaExplorarController.modo=modo;
+    VentanaExplorarController.modocontrario=modocontrario;
+    s.show();
+    
+    }
     
     
     
