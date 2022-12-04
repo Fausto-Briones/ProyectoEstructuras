@@ -181,6 +181,8 @@ public class VentanaDetalleController implements Initializable{
         setearSalir();
         //backButton.setVisible(false);
         eventsUsuario(textUsuario);
+        eventsUsuario(botonCatalogo);
+        eventsUsuario(botonExplorar);
     }
     @FXML
     public void filtro(ActionEvent a){
@@ -564,7 +566,23 @@ public class VentanaDetalleController implements Initializable{
     }
     });
     }
+    public void eventsUsuario(Button boton){
     
+    boton.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(true);
+    }
+    });
+    boton.setOnMouseExited(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(false);
+    }
+    });
+    
+    
+    }
     public void abrirVentanaUsuario(Text textusuario)throws IOException{
     VentanaUsuarioController.modo=modo;
     VentanaUsuarioController.modocontrario=modocontrario;

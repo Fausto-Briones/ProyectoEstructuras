@@ -71,6 +71,10 @@ public class VentanaExplorarController implements Initializable {
     private Text textUsuario;
     @FXML
     private ScrollPane root;
+    @FXML
+    private Button botonCatalogo;
+    @FXML
+    private Button botonExplorar;
     
     public static String modo;
     public static String modocontrario;
@@ -85,6 +89,8 @@ public class VentanaExplorarController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         textUsuario.setText(App.usr.getId());
         eventsUsuario(textUsuario);
+        eventsUsuario(botonCatalogo);
+        eventsUsuario(botonExplorar);
         buscarJuego();
         mover();
         setearSalir();
@@ -369,6 +375,20 @@ public class VentanaExplorarController implements Initializable {
     App.pilaVentanas.push("VentanaExplorar");
     s.show();
     }
+    public void eventsUsuario(Button boton){
     
+    boton.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(true);
+    }
+    });
+    boton.setOnMouseExited(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(false);
+    }
+    });
+    }
     
 }

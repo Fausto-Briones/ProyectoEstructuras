@@ -16,6 +16,7 @@ import java.net.URL;
 import java.util.Optional;
 import java.util.ResourceBundle;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -30,6 +31,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.WritableImage;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -87,7 +89,8 @@ public class VentanaUsuarioController implements Initializable {
         }else{
         cargarWishlist();
         }
-        
+        eventsUsuario(botonCatalogo);
+        eventsUsuario(botonExplorar);
         
     }    
     
@@ -304,7 +307,21 @@ public class VentanaUsuarioController implements Initializable {
     s.show();
     
     }
+    public void eventsUsuario(Button boton){
     
+    boton.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(true);
+    }
+    });
+    boton.setOnMouseExited(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(false);
+    }
+    });
+    }
     
     
     }

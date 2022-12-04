@@ -76,6 +76,11 @@ public class VentanaPrincipalDemoController implements Initializable {
     private Button backButton;
     @FXML
     private Text textUsuario;
+    @FXML
+    private Button botonCatalogo;
+    @FXML
+    private Button botonExplorar;
+    
 //    @FXML
 //    private HBox hbox_h;
     
@@ -97,6 +102,8 @@ public class VentanaPrincipalDemoController implements Initializable {
         //System.out.println(isModoOscuroOn);
         textUsuario.setText(App.usr.getId());
         eventsUsuario(textUsuario);
+        eventsUsuario(botonCatalogo);
+        eventsUsuario(botonExplorar);
         backButton.setVisible(false);
         imgsDestacados = agregarDestacados();
         moverDestacados(Thread.currentThread());
@@ -459,4 +466,21 @@ public class VentanaPrincipalDemoController implements Initializable {
     App.pilaVentanas.push("VentanaPrincipalDemo");
     s.show();
     }
+    public void eventsUsuario(Button boton){
+    
+    boton.setOnMouseEntered(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(true);
+    }
+    });
+    boton.setOnMouseExited(new EventHandler<MouseEvent>(){
+    @Override
+    public void handle(MouseEvent e){
+    boton.setUnderline(false);
+    }
+    });
+    }
+    
+    
 }
