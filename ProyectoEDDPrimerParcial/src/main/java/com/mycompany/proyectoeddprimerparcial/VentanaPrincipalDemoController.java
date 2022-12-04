@@ -79,7 +79,7 @@ public class VentanaPrincipalDemoController implements Initializable {
 //    @FXML
 //    private HBox hbox_h;
     
-    public static boolean isModoOscuroOn;
+    public static boolean isModoOscuroOn=true;
     private TextField barra_busqueda;
     Image img_juego_actual;
     Juego juego_actual;
@@ -94,13 +94,14 @@ public class VentanaPrincipalDemoController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        //System.out.println(isModoOscuroOn);
         textUsuario.setText(App.usr.getId());
         eventsUsuario(textUsuario);
         backButton.setVisible(false);
         imgsDestacados = agregarDestacados();
         moverDestacados(Thread.currentThread());
         cargarImagenesModos();
-        isModoOscuroOn = true;
+        //isModoOscuroOn = true;
         hbox_catalogo.getChildren().addAll(vboxes.get(0), vboxes.get(1), vboxes.get(2), vboxes.get(3), vboxes.get(4));
         hbox_catalogo.setSpacing(25);
 //        btnModoOscuro.setOnAction(e -> {
@@ -306,15 +307,18 @@ public class VentanaPrincipalDemoController implements Initializable {
 
     public void abrirVentanaJuego(Juego j) throws IOException {
         if (isModoOscuroOn) {
+           
             VentanaDetalleController.modo = "#121212";
             VentanaDetalleController.modocontrario = "white";
         } else {
             VentanaDetalleController.modo = "white";
             VentanaDetalleController.modocontrario = "#121212";
+            
         }
         VentanaDetalleController.usr = App.usr;
         VentanaDetalleController.selected = j;
         App.pilaVentanas.push("VentanaPrincipalDemo");
+        
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
         Parent root1 = fxmloader.load();
         Stage s = (Stage) root.getScene().getWindow();
@@ -373,11 +377,7 @@ public class VentanaPrincipalDemoController implements Initializable {
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
     App.pilaVentanas.clear();
-    if(isModoOscuroOn){
-    VentanaPrincipalDemoController.isModoOscuroOn=true;
-    }else{
-    VentanaPrincipalDemoController.isModoOscuroOn=false;
-    }
+    VentanaPrincipalDemoController.isModoOscuroOn = isModoOscuroOn;
     s.show();
     
     }

@@ -182,6 +182,8 @@ public class VentanaExplorarController implements Initializable {
     }
 
     private void abrirVentanaJuego(Juego actual) throws IOException {
+        VentanaUsuarioController.modo = modo;
+        VentanaUsuarioController.modocontrario = modocontrario;
         VentanaDetalleController.usr=App.usr;
         VentanaDetalleController.selected=actual;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
@@ -293,11 +295,7 @@ public class VentanaExplorarController implements Initializable {
     Scene scene=new Scene(root1,1280,720);
     s.setScene(scene);
     App.pilaVentanas.clear();
-    if(modo.equals("white")){
-    VentanaPrincipalDemoController.isModoOscuroOn=false;
-    }else{
-    VentanaPrincipalDemoController.isModoOscuroOn=true;
-    }
+    VentanaPrincipalDemoController.isModoOscuroOn = !modo.equals("white");
     s.show();
     
     }
