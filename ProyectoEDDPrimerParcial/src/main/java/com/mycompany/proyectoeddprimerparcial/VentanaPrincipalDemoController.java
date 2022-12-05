@@ -164,7 +164,7 @@ public class VentanaPrincipalDemoController implements Initializable {
 
     public void moverIzq() {
         btn_cat_izq.setOnAction(e -> {
-            HBox referencia = (HBox) vboxFilasCatalogo.getChildren().get(2);
+            HBox referencia = (HBox) vboxFilasCatalogo.getChildren().get(0);
             VBox tmp = (VBox) referencia.getChildren().get(0);
             for (int i = 0; i < 15; i++) {
                 tmp = vboxes.getAnterior(tmp);
@@ -173,7 +173,7 @@ public class VentanaPrincipalDemoController implements Initializable {
                 HBox h = (HBox) n;
                 h.getChildren().clear();
                 for (int i = 0; i < 5; i++) {
-                    h.getChildren().add(vboxes.getSiguiente(tmp));
+                    h.getChildren().add(tmp);
                     tmp = vboxes.getSiguiente(tmp);
                 }
             }
