@@ -20,6 +20,8 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -80,7 +82,6 @@ public class VentanaUsuarioController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         textUsuario.setText(usr1.getId());
-        cambiarModo(modo,modocontrario);
         setearSalir();
         cargarImagenesModos();
         usrWishTitle.setText(usr1.getId()+"'s Wishlist");
@@ -89,6 +90,7 @@ public class VentanaUsuarioController implements Initializable {
         }else{
         cargarWishlist();
         }
+        cambiarModo(modo,modocontrario);
         eventsUsuario(botonCatalogo);
         eventsUsuario(botonExplorar);
         
@@ -141,14 +143,14 @@ public class VentanaUsuarioController implements Initializable {
     }
     public void setLight(){    
     modo="white";
-    modocontrario="black";
+    modocontrario="#121212";
     cambiarModo(modo,modocontrario);
     //reseniasIniciales();
     
             
     }
     public void setNight(){  
-    modo="black";
+    modo="#121212";
     modocontrario="white";
     cambiarModo(modo,modocontrario);
     //reseniasIniciales();
@@ -164,7 +166,7 @@ public class VentanaUsuarioController implements Initializable {
     botonExplorar.setStyle("-fx-text-fill:"+modocontrario+";-fx-background-color:"+modo);
     botonSalir.setStyle("-fx-background-color:red;-fx-background-radius:24;-fx-border-radius:20;-fx-border-width:3;-fx-border-color:"+modocontrario);    
     for(Node nodo:flowWish.getChildren()){
-    ((Label)((VBox)nodo).getChildren().get(1)).setStyle("-fx-text-fill:"+modocontrario);
+    ((Text)((HBox)((VBox)nodo).getChildren().get(1)).getChildren().get(0)).setStyle("-fx-fill:"+modocontrario);
     }    
         
     }
@@ -215,14 +217,14 @@ public class VentanaUsuarioController implements Initializable {
             imgvJuego.setClip(null);
             imgvJuego.setImage(image);
             vbJuego.getChildren().add(imgvJuego);
-            Label titulo=new Label(actual.getTitulo());
-//            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
-            titulo.setTextFill(Color.WHITE);
+            Text titulo=new Text(actual.getTitulo());
+            titulo.setWrappingWidth(190);
+            HBox titlebutton=new HBox();
             vbJuego.getChildren().add(titulo);
-            //Label precio=new Label(actual.getPrecio());
-//            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
-            //precio.setTextFill(Color.WHITE);
-            //vbJuego.getChildren().add(precio);
+            titlebutton.getChildren().addAll(titulo);
+            titlebutton.setSpacing(0);
+            //HBox.setMargin(boton,new Insets(0,0,0,100));
+            vbJuego.getChildren().add(titlebutton);
             vbJuego.setSpacing(5);
             flowWish.getChildren().add(vbJuego);
             
@@ -256,10 +258,52 @@ public class VentanaUsuarioController implements Initializable {
             imgvJuego.setClip(null);
             imgvJuego.setImage(image);
             vbJuego.getChildren().add(imgvJuego);
-            Label titulo=new Label(actual.getTitulo());
+            Text titulo=new Text(actual.getTitulo());
+            titulo.setStyle("-fx-fill:"+modocontrario);
+            titulo.setWrappingWidth(190);
 //            titulo.setStyle("-fx-font-weight:bold;-fx-font-size:12");
-            titulo.setTextFill(Color.WHITE);
-            vbJuego.getChildren().add(titulo);
+            HBox titlebutton=new HBox();
+//            HBox boton=new HBox();
+            Button botonQuitar=new Button();
+            botonQuitar.setText("X");
+            botonQuitar.setStyle("-fx-text-fill:white;-fx-background-color:red");
+            int d=i;
+            botonQuitar.setOnAction(new EventHandler<ActionEvent>(){
+                
+                @Override
+                public void handle(ActionEvent t) {
+                    Alert conf_quitar = new Alert(Alert.AlertType.CONFIRMATION);
+                    conf_quitar.setHeaderText(null);
+                    conf_quitar.setContentText("¿Está seguro de que desea quitar este juego de su wishlist?");
+                    Optional<ButtonType> confirmacion = conf_quitar.showAndWait();
+                if (confirmacion.get() == ButtonType.OK) {
+                App.usr.getWishlist().removeI(d);
+                usr1=App.usr;
+                flowWish.getChildren().clear();
+                cargarWishlistMia();
+                }
+                }
+            
+            
+            
+            
+            
+            
+            });
+            
+//            boton.getChildren().add(botonQuitar);
+//            boton.setAlignment(Pos.TOP_RIGHT);
+//            try(FileInputStream input=new FileInputStream(App.pathSS+"xbutton.png")){
+//            Image img= new Image(input,20,20,false,true);
+//            ImageView imgv=new ImageView(img);
+//            botonQuitar.setGraphic(imgv);
+//            }   catch (IOException ex) {
+//                ex.printStackTrace();
+//            }
+            titlebutton.getChildren().addAll(titulo,botonQuitar);
+            titlebutton.setSpacing(0);
+            //HBox.setMargin(boton,new Insets(0,0,0,100));
+            vbJuego.getChildren().add(titlebutton);
             //Label precio=new Label(actual.getPrecio());
 //            precio.setStyle("-fx-font-weight:bold;-fx-font-size:12");
             //precio.setTextFill(Color.WHITE);

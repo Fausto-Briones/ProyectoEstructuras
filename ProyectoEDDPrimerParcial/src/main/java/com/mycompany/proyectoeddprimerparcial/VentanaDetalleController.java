@@ -163,11 +163,11 @@ public class VentanaDetalleController implements Initializable{
     
     
     
-    public static String modo="black";
-    public static String modocontrario="white";
-    public static Juego selected=new Juego("1","God of War","Vale verga este juego","Accion","Santa Monica Studios","2018","59.99");
+    public static String modo;
+    public static String modocontrario;
+    public static Juego selected;
     //public String modo="white";
-    public static Usuario usr=new Usuario("AVGlatina1","12342342");
+    public static Usuario usr;
     
     
     @Override
@@ -183,6 +183,23 @@ public class VentanaDetalleController implements Initializable{
         eventsUsuario(textUsuario);
         eventsUsuario(botonCatalogo);
         eventsUsuario(botonExplorar);
+        if(usr.getWishlist().find(new Comparator<Juego>(){
+            @Override
+            public int compare(Juego j1, Juego j2) {
+                if(j1.getTitulo().equals(j2.getTitulo())){
+                return 0;
+                }else{
+                return 1;
+                }
+            }
+        }, selected)!=null){
+        botonWishlist.setDisable(true);
+        botonWishlist.setText("Ya está en la Wishlist");
+        
+        
+        }
+        
+        
     }
     @FXML
     public void filtro(ActionEvent a){
