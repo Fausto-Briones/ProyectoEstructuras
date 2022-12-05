@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Stack;
 import javafx.scene.image.Image;
 
@@ -94,7 +95,7 @@ public class App extends Application {
 
     public static TDAArraylist<String[]> cargarDatos(String ruta) {
         TDAArraylist<String[]> retorno = new TDAArraylist<>();
-        try ( BufferedReader bf = new BufferedReader(new FileReader(ruta))) {
+        try ( BufferedReader bf = new BufferedReader(new FileReader(ruta,StandardCharsets.UTF_8))) {
             //Se lee la cabecera del archivo
             bf.readLine();
             String linea;

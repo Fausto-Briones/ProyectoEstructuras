@@ -238,7 +238,7 @@ public class VentanaPrincipalDemoController implements Initializable {
                     try {
                         Thread.sleep(2000);
                     } catch (InterruptedException ex) {
-                        System.out.println("Ayudaaa");
+                       
                     }
                 }
 
