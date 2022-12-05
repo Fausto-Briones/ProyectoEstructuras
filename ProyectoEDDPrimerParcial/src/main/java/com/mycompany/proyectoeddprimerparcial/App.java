@@ -38,6 +38,7 @@ public class App extends Application {
         stage.setScene(scene);
         stage.setResizable(false);
         stage.setTitle("Game Store");
+        stage.getIcons().add(getImage("Images/icon.png"));
         //System.out.println("Anyamemby");
         stage.show();
 
@@ -126,6 +127,7 @@ public class App extends Application {
             s.setScene(scene1);
             s.setResizable(false);
             s.setTitle("Game Store");
+            s.getIcons().add(getImage("Images/icon.png"));
             s.show();
         } catch (IOException ex) {
             ex.printStackTrace();
