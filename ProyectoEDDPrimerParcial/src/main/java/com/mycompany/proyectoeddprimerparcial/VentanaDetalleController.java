@@ -641,6 +641,12 @@ public class VentanaDetalleController implements Initializable{
     }
     @FXML
     public void guardarResenia(ActionEvent e){
+    if(valoracion.getSelectedToggle()==null || (textAreaEscribe.getText().equals("")==true)){
+    Alert elegir = new Alert(Alert.AlertType.INFORMATION);
+    elegir.setHeaderText(null);
+    elegir.setContentText("Asegurese de haber escogido un puntaje y de haber escrito un comentario");
+    elegir.show();
+    }else{
     String puntaje=((RadioButton)valoracion.getSelectedToggle()).getText();
     String comentario= textAreaEscribe.getText();
     try(BufferedWriter bfw=new BufferedWriter(new FileWriter(App.pathReviews+selected.getId()+"/reviews.txt",true))){
@@ -652,6 +658,8 @@ public class VentanaDetalleController implements Initializable{
     reseniasIniciales();
     }catch(IOException ex2){
         System.out.println("No se encontro el archivo");
+    }
+    
     }
     }
     
