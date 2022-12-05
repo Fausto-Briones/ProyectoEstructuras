@@ -126,7 +126,13 @@
                         <Button fx:id="btn_cat_izq" mnemonicParsing="false" text="&lt;" />
                      </children>
                   </VBox>
-                  <HBox fx:id="hbox_catalogo" alignment="CENTER" prefHeight="227.0" prefWidth="1022.0" />
+                  <VBox fx:id="vboxFilasCatalogo" prefHeight="200.0" prefWidth="100.0" spacing="25.0">
+                     <children>
+                        <HBox fx:id="hbox_catalogo" alignment="CENTER" prefHeight="227.0" prefWidth="1022.0" spacing="25.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" />
+                        <HBox prefHeight="100.0" prefWidth="200.0" spacing="25.0" />
+                     </children>
+                  </VBox>
                   <VBox alignment="CENTER" prefHeight="200.0" prefWidth="100.0">
                      <children>
                         <Button fx:id="btn_cat_der" mnemonicParsing="false" text="&gt;" />
