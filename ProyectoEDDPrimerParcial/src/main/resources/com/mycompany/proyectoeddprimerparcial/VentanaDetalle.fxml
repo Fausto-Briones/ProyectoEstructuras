@@ -259,7 +259,7 @@
                               <Button fx:id="botonEnviar" mnemonicParsing="false" onAction="#guardarResenia" text="Enviar" />
                            </children>
                         </HBox>
-                        <TextArea fx:id="textFieldEscribe" prefHeight="200.0" prefWidth="200.0" promptText="Escribe un comentario..." style="-fx-max-width: 640;" wrapText="true">
+                        <TextArea fx:id="textAreaEscribe" prefHeight="200.0" prefWidth="200.0" promptText="Escribe un comentario..." style="-fx-max-width: 640;" wrapText="true">
                            <font>
                               <Font size="14.0" />
                            </font>
