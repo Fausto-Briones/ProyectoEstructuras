@@ -10,9 +10,9 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<ScrollPane fx:id="root" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyectoeddprimerparcial.VentanaPrincipalDemoController">
+<ScrollPane fx:id="root" hbarPolicy="NEVER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.mycompany.proyectoeddprimerparcial.VentanaPrincipalDemoController">
    <content>
-      <VBox fx:id="v_base" prefHeight="720.0" prefWidth="1280.0" style="-fx-background-color: #121212;">
+      <VBox fx:id="v_base" prefHeight="720.0" prefWidth="1280.0" spacing="5.0" style="-fx-background-color: #121212;">
          <children>
             <HBox fx:id="buttonHbox" alignment="CENTER_LEFT" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="50.0" prefWidth="1280.0">
                <children>
@@ -94,7 +94,7 @@
                   <Insets left="10.0" />
                </VBox.margin>
             </Label>
-            <HBox alignment="CENTER_LEFT" prefHeight="253.0" prefWidth="1280.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="650.0" prefWidth="1280.0">
                <children>
                   <Label fx:id="lblMessage" text="Disfruta de los juegos más exclusivos!" textFill="WHITE">
                      <font>
@@ -104,7 +104,7 @@
                         <Insets left="10.0" />
                      </HBox.margin>
                   </Label>
-                  <ImageView fx:id="imgvDestacados" fitHeight="255.0" fitWidth="396.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fx:id="imgvDestacados" fitHeight="360.0" fitWidth="640.0" pickOnBounds="true" preserveRatio="true">
                      <HBox.margin>
                         <Insets left="150.0" />
                      </HBox.margin>

@@ -188,7 +188,7 @@ public class VentanaPrincipalDemoController implements Initializable {
     public LinkedListDobleCircular<Image> agregarDestacados() {
         LinkedListDobleCircular<Image> lista_Destacados = new LinkedListDobleCircular();
         ImageView imgv = new ImageView();
-        Rectangle clip = new Rectangle(300, 160);
+        Rectangle clip = new Rectangle(640, 360);
         clip.setArcWidth(30);
         clip.setArcHeight(30);
         imgv.setClip(clip);

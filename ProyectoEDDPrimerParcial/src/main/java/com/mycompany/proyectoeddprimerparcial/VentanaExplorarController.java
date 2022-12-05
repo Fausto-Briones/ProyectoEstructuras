@@ -81,17 +81,19 @@ public class VentanaExplorarController implements Initializable {
     private VBox vboxPrincipal;
     @FXML
     private HBox hboxModo;
-    
+
     public static String modo;
     public static String modocontrario;
     private LinkedListDobleCircular<Juego> juegos = App.cargarJuegos();
-    private static LinkedListDobleCircular<VBox> vboxes=new LinkedListDobleCircular<>();
+    private static LinkedListDobleCircular<VBox> vboxes = new LinkedListDobleCircular<>();
 
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
+        btnAnteriores.setVisible(false);
+        btnSiguientes.setVisible(false);
         textUsuario.setText(App.usr.getId());
         eventsUsuario(textUsuario);
         eventsUsuario(botonCatalogo);
@@ -102,8 +104,8 @@ public class VentanaExplorarController implements Initializable {
         cargarImagenesModos();
         backButton.setVisible(false);
         //System.out.println(modo+modocontrario);
-        cambiarModo(modo,modocontrario);
-        cambiarModoBarra(modo,modocontrario);
+        cambiarModo(modo, modocontrario);
+        cambiarModoBarra(modo, modocontrario);
     }
 
     public LDEC<Juego> buscarJ() {
@@ -204,8 +206,8 @@ public class VentanaExplorarController implements Initializable {
         VentanaUsuarioController.modocontrario = modocontrario;
         VentanaDetalleController.usr = App.usr;
         VentanaDetalleController.selected = actual;
-        VentanaDetalleController.modo=modo;
-        VentanaDetalleController.modocontrario=modocontrario;
+        VentanaDetalleController.modo = modo;
+        VentanaDetalleController.modocontrario = modocontrario;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaDetalle.fxml"));
         Parent root1 = fxmloader.load();
         Stage s = (Stage) root.getScene().getWindow();
@@ -316,8 +318,8 @@ public class VentanaExplorarController implements Initializable {
 
     @FXML
     public void cargarCatalogo(ActionEvent e) throws IOException {
-        VentanaPrincipalDemoController.modo=modo;
-        VentanaPrincipalDemoController.modocontrario=modocontrario;
+        VentanaPrincipalDemoController.modo = modo;
+        VentanaPrincipalDemoController.modocontrario = modocontrario;
         FXMLLoader fxmloader = new FXMLLoader(App.class.getResource("VentanaPrincipalDemo.fxml"));
         Parent root1 = fxmloader.load();
         Stage s = (Stage) root.getScene().getWindow();
@@ -432,7 +434,7 @@ public class VentanaExplorarController implements Initializable {
                 }
             }
         }
-        
+
     }
 
     public void cambiarModoBarra(String modo, String modocontrario) {

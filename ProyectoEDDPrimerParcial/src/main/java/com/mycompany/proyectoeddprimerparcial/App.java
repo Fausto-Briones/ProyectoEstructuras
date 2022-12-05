@@ -83,7 +83,7 @@ public class App extends Application {
     public static Image getImage(String name, boolean destacado) {
         Image img = null;
         try ( FileInputStream f = new FileInputStream(name)) {
-            img = new Image(f, 300, 160, false, true);
+            img = new Image(f, 640, 360, false, true);
         } catch (FileNotFoundException f) {
             System.out.println("No se encontró el archivo solicitado");
         } catch (IOException i) {
