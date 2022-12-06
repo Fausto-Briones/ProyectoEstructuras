@@ -463,7 +463,7 @@ public class VentanaDetalleController implements Initializable{
         HBox hboxusvalanio=new HBox();
         hboxusvalanio.setSpacing(200);
         Text textus=new Text(r3.getUsuario());
-        textus.setWrappingWidth(100);
+        textus.setWrappingWidth(150);
         textus.setStyle("-fx-font-size:20;-fx-fill:"+modocontrario);
         eventsUsuario(textus);
         HBox hboxus=new HBox(textus);
@@ -617,6 +617,7 @@ public class VentanaDetalleController implements Initializable{
     @FXML
     public void anadirWishlist(ActionEvent e){
     botonWishlist.setText("Agregado exitosamente");
+    botonWishlist.setDisable(true);
     App.usr.anadirJuegoWish(selected);
     VentanaDetalleController.usr=App.usr;
     

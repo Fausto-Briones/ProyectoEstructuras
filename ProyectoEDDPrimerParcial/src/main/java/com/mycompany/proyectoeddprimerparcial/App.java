@@ -63,7 +63,7 @@ public class App extends Application {
         try ( FileInputStream f = new FileInputStream(name)) {
             img = new Image(f);
         } catch (FileNotFoundException f) {
-            System.out.println("No se encontró el archivo solicitado");
+           
         } catch (IOException i) {
             System.out.println("Hubo un error, inténtalo más tarde");
         }
@@ -74,7 +74,7 @@ public class App extends Application {
         try ( FileInputStream f = new FileInputStream(name)) {
             img = new Image(f, width, height, false, true);
         } catch (FileNotFoundException f) {
-            System.out.println("No se encontró el archivo solicitado");
+            
         } catch (IOException i) {
             System.out.println("Hubo un error, inténtalo más tarde");
         }
@@ -86,7 +86,7 @@ public class App extends Application {
         try ( FileInputStream f = new FileInputStream(name)) {
             img = new Image(f, 640, 360, false, true);
         } catch (FileNotFoundException f) {
-            System.out.println("No se encontró el archivo solicitado");
+            
         } catch (IOException i) {
             System.out.println("Hubo un error, inténtalo más tarde");
         }
