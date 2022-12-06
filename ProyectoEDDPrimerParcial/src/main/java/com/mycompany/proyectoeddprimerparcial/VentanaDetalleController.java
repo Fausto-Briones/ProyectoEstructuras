@@ -63,6 +63,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.web.WebView;
+
 
 /**
  *
