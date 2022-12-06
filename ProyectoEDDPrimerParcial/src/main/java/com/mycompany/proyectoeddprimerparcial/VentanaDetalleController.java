@@ -65,7 +65,6 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import javafx.scene.web.WebView;
 
-
 /**
  *
  * @author AVGla
