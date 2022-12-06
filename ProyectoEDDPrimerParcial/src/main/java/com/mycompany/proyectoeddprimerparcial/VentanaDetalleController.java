@@ -63,7 +63,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.scene.web.WebView;
+
 
 /**
  *
@@ -196,7 +196,6 @@ public class VentanaDetalleController implements Initializable{
         }, selected)!=null){
         botonWishlist.setDisable(true);
         botonWishlist.setText("Ya está en la Wishlist");
-        
         
         }
         
@@ -688,6 +687,5 @@ public class VentanaDetalleController implements Initializable{
     s.setScene(scene);
     App.pilaVentanas.clear();
     s.show();
-    
     }
 }
